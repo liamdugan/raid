@@ -40,6 +40,12 @@ version.path = "raid/_version.py"
 [tool.hatch.build.targets.wheel]
 packages = ["raid"]
 
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "/leaderboard",
+    "/web"
+]
+
 [tool.black]
 line-length = 120
 preview = true

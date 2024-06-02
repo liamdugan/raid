@@ -19,3 +19,5 @@ generation/*.json
 /logs
 
 test_labels.json
+/dist
+/venv
