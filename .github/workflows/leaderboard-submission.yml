@@ -1,0 +1,95 @@
+name: Leaderboard Submission
+
+# necessary secrets:
+# TEST_LABELS_URL - link to hidden test labels
+# LEADERBOARD_SALT - salt for results validation hash
+
+# Since we need write access to GH, we use pull_request_target here
+# The eval workflow will need to clone the PR head branch alongside the base branch, then copy over only the changed
+# files to run base eval code on (for security)
+on:
+  pull_request_target:
+    paths:
+      - leaderboard/submissions/**
+      - leaderboard/*.py
+
+permissions:
+  pull-requests: write
+  contents: write
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      # Clone the main repo
+      - uses: actions/checkout@v4
+
+      # Clone the PR head to _pr_submission
+      - uses: actions/checkout@v4
+        with:
+          path: _pr_submission
+          ref: ${{ github.head_ref }}
+
+      # copy submission files over to main repo
+      - name: Copy submission files to eval workspace
+        run: |
+          cp -r _pr_submission/leaderboard/submissions/. leaderboard/submissions
+
+      - name: Download test set labels
+        run: wget -q ${{ secrets.TEST_LABELS_URL }} -O test_labels.json
+
+      - name: Cache Test File
+        uses: actions/cache@v4
+        with:
+          path: "~/.cache/raid"
+          key: test-csv
+
+      # set up in local workdir and hydrate results
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install library for eval
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+
+      - name: Run eval script
+        id: eval
+        env:
+          LEADERBOARD_SALT: ${{ secrets.LEADERBOARD_SALT }}
+        run: python leaderboard/hydrate.py
+
+      # ensure the PR comment exists so we can edit it in future steps
+      - name: Ensure PR comment
+        if: steps.eval.outputs.changed > 0 || failure()
+        run: |
+          if [[ -z $(gh pr view ${{ github.event.number }} --json comments | jq '.comments[].author.login | select(. == "github-actions")') ]]; then
+            gh pr comment ${{ github.event.number }} -b "Results incoming...";
+          fi
+
+      - name: Add PR comment (failure)
+        if: failure()
+        run: gh pr comment ${{ github.event.number }} --edit-last -b "It looks like this eval run failed. Please check the [workflow logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) to see what went wrong, then push a new commit to your PR to rerun the eval."
+
+      - name: Add PR comment (success)
+        if: steps.eval.outputs.changed > 0
+        env:
+          RUN_LINK: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: python leaderboard/gh-print-new-results.py ${{ steps.eval.outputs.written-results }} | gh pr comment ${{ github.event.number }} --edit-last -F -
+
+      - name: Commit results files to PR
+        if: steps.eval.outputs.changed > 0
+        run: |
+          cp -r leaderboard/submissions/. _pr_submission/leaderboard/submissions
+          cd _pr_submission
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add leaderboard/submissions
+          git commit -m "leaderboard: add eval results (#${{ github.event.number }})"
+          git push
