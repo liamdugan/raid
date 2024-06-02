@@ -59,8 +59,8 @@
 
       <div class="level mt-4">
         <div class="level-item buttons are-medium">
-          <a class="button is-primary">Paper</a>
-          <a class="button is-primary ml-4">GitHub</a>
+          <a class="button is-primary" href="https://arxiv.org/abs/2405.07940" target="_blank">Paper</a>
+          <a class="button is-primary ml-4" href="https://github.com/liamdugan/raid" target="_blank">GitHub</a>
           <RouterLink to="/leaderboard" class="button is-primary ml-4">Leaderboard</RouterLink>
 <!--          <RouterLink to="/faq" class="button is-primary ml-4">FAQ</RouterLink>-->
         </div>
