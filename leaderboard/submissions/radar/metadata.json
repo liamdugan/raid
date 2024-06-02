@@ -1,0 +1,9 @@
+{
+  "date_released": "2023-07-07",
+  "detector_name": "RADAR",
+  "website": "https://radar.vizhub.ai/",
+  "paper_link": "https://arxiv.org/abs/2307.03838",
+  "huggingface_link": "https://huggingface.co/TrustSafeAI/RADAR-Vicuna-7B",
+  "github_link": "https://github.com/IBM/RADAR",
+  "contact_info": "Submitted by RAID Authors"
+}

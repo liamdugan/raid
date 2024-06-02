@@ -1,0 +1,1 @@
+Write the abstract for the academic paper titled "{title}".

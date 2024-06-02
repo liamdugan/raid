@@ -1,0 +1,1 @@
+Napiš text článku, který má nadpis "{title}".

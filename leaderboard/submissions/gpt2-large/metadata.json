@@ -1,0 +1,8 @@
+{
+  "date_released": "2019-08-24",
+  "detector_name": "RoBERTa-large (GPT2)",
+  "paper_link": "https://d4mucfpksywv.cloudfront.net/papers/GPT_2_Report.pdf",
+  "huggingface_link": "https://huggingface.co/openai-community/roberta-large-openai-detector",
+  "github_link": "https://github.com/openai/gpt-2-output-dataset/tree/master/detector",
+  "contact_info": "Submitted by RAID Authors"
+}

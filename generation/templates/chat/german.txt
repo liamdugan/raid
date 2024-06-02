@@ -1,0 +1,1 @@
+Schreiben Sie einen Nachrichtenartikel mit dem Titel "{title}".

@@ -1,0 +1,1 @@
+Es folgt ein Nachrichtenartikel mit dem Titel "{title}":

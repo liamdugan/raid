@@ -1,0 +1,8 @@
+{
+  "date_released": "2023-01-18",
+  "detector_name": "RoBERTa (ChatGPT)",
+  "paper_link": "https://arxiv.org/abs/2301.07597",
+  "huggingface_link": "https://huggingface.co/Hello-SimpleAI/chatgpt-detector-roberta",
+  "github_link": "https://github.com/Hello-SimpleAI/chatgpt-comparison-detection",
+  "contact_info": "Submitted by RAID Authors"
+}

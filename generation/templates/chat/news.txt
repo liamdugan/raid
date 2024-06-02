@@ -1,0 +1,1 @@
+Write the body of a BBC news article titled "{title}". Do not repeat the title.

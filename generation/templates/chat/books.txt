@@ -1,0 +1,1 @@
+Write the body of a plot summary for a novel titled "{title}". Do not give it a title.

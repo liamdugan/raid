@@ -1,0 +1,39 @@
+@charset "utf-8";
+
+// site colors
+$purple: #8a4d76;
+$pink: #fa7c91;
+$brown: #757763;
+$beige-light: #d0d1cd;
+$beige-lighter: #eff0eb;
+
+$lime: #c9f4c8;
+$cucumber: #84a456;
+$green-dark: #324744;
+$grey-green: #59686c;
+
+@use "bulma/sass" with (
+  // Bulma global variables
+  $family-sans-serif: '"Zilla Slab", sans-serif',
+
+  $grey-dark: $green-dark,
+  $grey: $grey-green,
+  $grey-light: $beige-light,
+
+  $primary: $grey-green,
+  $link: $purple,
+  $info: $lime,
+
+  // Bulma component variables
+  $navbar-background-color: $beige-lighter,
+  $body-background-color: $beige-lighter,
+);
+
+// site fonts
+@import url("https://fonts.googleapis.com/css?family=Zilla+Slab:400,700");
+
+// ==== custom ====
+// style horizontal rules to look better
+hr {
+  background-color: $beige-light;
+}
