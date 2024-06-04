@@ -35,7 +35,7 @@ def download_file(url: str, out: Path, cache=True) -> Path:
     return out
 
 
-def load_data(split: Literal["train", "test", "extra"], fp: str | Path = None):
+def load_data(split: Literal["train", "test", "extra"], include_adversarial: bool = True, fp: str = None):
     """Load the given split of RAID into memory from the given filepath, downloading it if it does not exist.
     Returns a DataFrame.
     """
@@ -43,8 +43,9 @@ def load_data(split: Literal["train", "test", "extra"], fp: str | Path = None):
         raise ValueError('`split` must be one of ("train", "test", "extra")')
 
     if fp is None:
-        fp = RAID_CACHE_DIR / f"{split}.csv"
+        fname = f"{split}.csv" if include_adversarial else f"{split}_none.csv"
+        fp = RAID_CACHE_DIR / fname
     else:
         fp = Path(fp)
-    fp = download_file(f"{RAID_DATA_URL_BASE}/{split}.csv", fp)
+    fp = download_file(f"{RAID_DATA_URL_BASE}/{fname}", fp)
     return pd.read_csv(fp)
