@@ -22,7 +22,7 @@ def find_threshold(df, target_fpr, epsilon):
     iteration = 1
     prev_dist = None
     step_size = 0.5
-    y_scores = df[(df["model"] == "human") & (df["score"].notnull())]["score"].tolist()
+    y_scores = df[(df["model"] == "human") & (df["attack"] == "none") & (df["score"].notnull())]["score"].tolist()
     threshold = sum(y_scores) / len(y_scores)  # initialize threshold to mean of y_scores
     sign = lambda x: -1 if x < 0 else 1
 
