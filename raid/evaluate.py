@@ -76,7 +76,7 @@ def compute_thresholds(df, fpr=0.05, epsilon=0.0005):
     return thresholds, true_fprs
 
 
-def compute_scores(df, thresholds):
+def compute_scores(df, thresholds, remove_null=True):
     # Initialize the list of records for the scores
     scores = []
 
@@ -95,8 +95,12 @@ def compute_scores(df, thresholds):
                     for r in df.repetition_penalty.unique().tolist() + ["all"]:
                         df_filter = dfs[dfs["repetition_penalty"] == r] if r != "all" else dfs
 
-                        # If no outputs for this split, or there are any null scores, continue
-                        if (len(df_filter) == 0) or (len(df_filter[df_filter["score"].isnull()]) > 0):
+                        # If no outputs for this split, continue
+                        if (len(df_filter) == 0):
+                            continue
+
+                        # If we're removing null and there are null scores, continue
+                        if remove_null and (len(df_filter[df_filter["score"].isnull()]) > 0):
                             continue
 
                         # Initialize predictions
