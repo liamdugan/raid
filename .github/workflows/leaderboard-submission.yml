@@ -36,6 +36,7 @@ jobs:
       # copy submission files over to main repo
       - name: Copy submission files to eval workspace
         run: |
+          rm -rf leaderboard/submissions
           cp -r _pr_submission/leaderboard/submissions/. leaderboard/submissions
 
       - name: Download test set labels
