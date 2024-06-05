@@ -80,7 +80,7 @@ def compute_thresholds(df, fpr=0.05, epsilon=0.0005, per_domain_tuning=True):
     return thresholds, true_fprs
 
 
-def compute_scores(df, thresholds, remove_null=True):
+def compute_scores(df, thresholds, require_complete=True):
     # Initialize the list of records for the scores
     scores = []
 
@@ -103,8 +103,8 @@ def compute_scores(df, thresholds, remove_null=True):
                         if (len(df_filter) == 0):
                             continue
 
-                        # If we're removing null and there are null scores, continue
-                        if remove_null and (len(df_filter[df_filter["score"].isnull()]) > 0):
+                        # If we're requiring all scores to be present and there are null scores, continue
+                        if require_complete and (len(df_filter[df_filter["score"].isnull()]) > 0):
                             continue
 
                         # Initialize predictions
@@ -153,7 +153,7 @@ def compute_scores(df, thresholds, remove_null=True):
     return scores
 
 
-def run_evaluation(results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuning=True):
+def run_evaluation(results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuning=True, require_complete=True):
     # Add detector outputs into a 'score' column
     df = load_detection_result(df, results)
 
@@ -161,6 +161,6 @@ def run_evaluation(results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuni
     thresholds, fprs = compute_thresholds(df, target_fpr, epsilon, per_domain_tuning)
 
     # Compute accuracy scores for each split of the data
-    scores = compute_scores(df, thresholds)
+    scores = compute_scores(df, thresholds, require_complete)
 
     return {"scores": scores, "thresholds": thresholds, "fpr": fprs, "target_fpr": target_fpr}
