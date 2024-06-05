@@ -66,13 +66,17 @@ def find_threshold(df, target_fpr, epsilon):
     return threshold, compute_fpr(y_scores, threshold)
 
 
-def compute_thresholds(df, fpr=0.05, epsilon=0.0005):
+def compute_thresholds(df, fpr=0.05, epsilon=0.0005, per_domain_tuning=True):
+    if not per_domain_tuning:
+        return find_threshold(df, fpr, epsilon)
+
     thresholds = {}
     true_fprs = {}
     for d in df.domain.unique():
         t, true_fpr = find_threshold(df[df["domain"] == d], fpr, epsilon)
         thresholds[d] = t
         true_fprs[d] = true_fpr
+    
     return thresholds, true_fprs
 
 
@@ -112,7 +116,8 @@ def compute_scores(df, thresholds, remove_null=True):
                             df_domain = df_filter[df_filter["domain"] == domain]
 
                             # Select the domain-specific threshold to use for classification
-                            t = thresholds[domain]
+                            # (If thresholds is a dict, use the domain-specific threshold)
+                            t = thresholds[domain] if type(thresholds) == dict else thresholds
 
                             # Get the 0 to 1 scores for the detector
                             y_model = df_domain["score"].to_numpy()
@@ -148,12 +153,12 @@ def compute_scores(df, thresholds, remove_null=True):
     return scores
 
 
-def run_evaluation(results, df, target_fpr=0.05, epsilon=0.0005):
+def run_evaluation(results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuning=True):
     # Add detector outputs into a 'score' column
     df = load_detection_result(df, results)
 
     # Find thresholds per-domain for target FPR
-    thresholds, fprs = compute_thresholds(df, target_fpr, epsilon)
+    thresholds, fprs = compute_thresholds(df, target_fpr, epsilon, per_domain_tuning)
 
     # Compute accuracy scores for each split of the data
     scores = compute_scores(df, thresholds)
