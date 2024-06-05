@@ -80,7 +80,11 @@ def compute_thresholds(df, fpr=0.05, epsilon=0.0005, per_domain_tuning=True):
     return thresholds, true_fprs
 
 
-def compute_scores(df, thresholds, require_complete=True):
+def get_unique_items(df, column, include_all=True):
+    return df[column].unique().tolist() + ["all"] if include_all else df[column].unique().tolist()
+
+
+def compute_scores(df, thresholds, require_complete=True, include_all=True):
     # Initialize the list of records for the scores
     scores = []
 
@@ -88,15 +92,15 @@ def compute_scores(df, thresholds, require_complete=True):
     df = df[df["model"] != "human"]
 
     # For each domain, attack, model, and decoding strategy, filter the dataset
-    for d in df.domain.unique().tolist() + ["all"]:
+    for d in get_unique_items(df, "domain", include_all):
         dfd = df[df["domain"] == d] if d != "all" else df
-        for a in df.attack.unique().tolist() + ["all"]:
+        for a in get_unique_items(df, "attack", include_all):
             dfa = dfd[dfd["attack"] == a] if a != "all" else dfd
-            for m in df.model.unique().tolist() + ["all"]:
+            for m in get_unique_items(df, "model", include_all):
                 dfm = dfa[dfa["model"] == m] if m != "all" else dfa
-                for s in df.decoding.unique().tolist() + ["all"]:
+                for s in get_unique_items(df, "decoding", include_all):
                     dfs = dfm[dfm["decoding"] == s] if s != "all" else dfm
-                    for r in df.repetition_penalty.unique().tolist() + ["all"]:
+                    for r in get_unique_items(df, "repetition_penalty", include_all):
                         df_filter = dfs[dfs["repetition_penalty"] == r] if r != "all" else dfs
 
                         # If no outputs for this split, continue
@@ -106,6 +110,9 @@ def compute_scores(df, thresholds, require_complete=True):
                         # If we're requiring all scores to be present and there are null scores, continue
                         if require_complete and (len(df_filter[df_filter["score"].isnull()]) > 0):
                             continue
+
+                        # Remove null scores from the dataframe
+                        df_filter = df_filter[df_filter["score"].notnull()]
 
                         # Initialize predictions
                         preds = []
@@ -153,7 +160,9 @@ def compute_scores(df, thresholds, require_complete=True):
     return scores
 
 
-def run_evaluation(results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuning=True, require_complete=True):
+def run_evaluation(
+    results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuning=True, require_complete=True, include_all=True
+):
     # Add detector outputs into a 'score' column
     df = load_detection_result(df, results)
 
