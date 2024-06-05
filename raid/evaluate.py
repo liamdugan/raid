@@ -51,7 +51,8 @@ def find_threshold(df, target_fpr, epsilon):
         # Can't find the threshold, let's find the best one
         if iteration > 50:
             # Compute diffs for all thresholds found during search
-            diffs = [(target_fpr - fpr, t) for t, fpr in found_threshold_list]
+            # (Exclude all thresholds for which the true fpr is 0)
+            diffs = [(target_fpr - fpr, t) for t, fpr in found_threshold_list if fpr > 0.0]
 
             # If there are positive numbers in the list, pick threshold for smallest pos number
             # Otherwise pick the threshold for the negative diff value closest to 0
