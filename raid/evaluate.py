@@ -76,7 +76,7 @@ def compute_thresholds(df, fpr=0.05, epsilon=0.0005, per_domain_tuning=True):
         t, true_fpr = find_threshold(df[df["domain"] == d], fpr, epsilon)
         thresholds[d] = t
         true_fprs[d] = true_fpr
-    
+
     return thresholds, true_fprs
 
 
@@ -100,7 +100,7 @@ def compute_scores(df, thresholds, require_complete=True):
                         df_filter = dfs[dfs["repetition_penalty"] == r] if r != "all" else dfs
 
                         # If no outputs for this split, continue
-                        if (len(df_filter) == 0):
+                        if len(df_filter) == 0:
                             continue
 
                         # If we're requiring all scores to be present and there are null scores, continue
