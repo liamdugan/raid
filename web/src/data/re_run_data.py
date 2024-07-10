@@ -9,7 +9,8 @@ with open("/Users/phanmanhtuan/work/anh_trinh/raid/web/src/data/all-scores.json"
 #     new_score = json.load(file)
 #
 
-file_to_read = "/Users/phanmanhtuan/work/anh_trinh/raid/leaderboard/submissions/detector21/results.json"
+# file_to_read = "/Users/phanmanhtuan/work/anh_trinh/raid/leaderboard/submissions/detector21/results.json"
+file_to_read = "/Users/phanmanhtuan/work/anh_trinh/raid/leaderboard/submissions/detector30/results.json"
 with open(file_to_read, "r") as file:
     new_score = json.load(file)
 
