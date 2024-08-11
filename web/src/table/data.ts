@@ -40,11 +40,25 @@ export function findSplit(datum: Datum, model: string = 'all', domain: string = 
 // consts
 export const ALL_SCORES: Submission[] = allScores
 // ASSUMPTION: there is at least one submission and all submissions have the same (model, domain, decoding, repetition_penalty) options
-export const ALL_GENERATOR_MODELS = ALL_SCORES.map(sub => sub.scores)
-  .flat()
-  .map((s) => s.model)
-  .filter(unique)
-  .filter(noAll)
+// export const ALL_GENERATOR_MODELS = ALL_SCORES.map(sub => sub.scores)
+//   .flat()
+//   .map((s) => s.model)
+//   .filter(unique)
+//   .filter(noAll)
+// we hardcode this to the set included in RAID for display ordering
+export const ALL_GENERATOR_MODELS = [
+  "chatgpt",
+  "gpt4",
+  "gpt3",
+  "gpt2",
+  "mistral",
+  "mistral-chat",
+  "cohere",
+  "cohere-chat",
+  "llama-chat",
+  "mpt",
+  "mpt-chat",
+];
 export const ALL_DOMAINS = ALL_SCORES.map(sub => sub.scores)
   .flat()
   .map((s) => s.domain)
