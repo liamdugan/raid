@@ -234,11 +234,11 @@ function isMaximum(
       <!--      </div>-->
       <!-- domain -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Domain</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedDomain" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedDomain" @change="updateQueryParams()">
                 <option>all</option>
                 <option v-for="domain in ALL_DOMAINS">{{ domain }}</option>
               </select>
@@ -248,11 +248,11 @@ function isMaximum(
       </div>
       <!-- decoding -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Decoding Strategy</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedDecoding" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedDecoding" @change="updateQueryParams()">
                 <option>all</option>
                 <option v-for="decoding in ALL_DECODINGS">{{ decoding }}</option>
               </select>
@@ -262,11 +262,11 @@ function isMaximum(
       </div>
       <!-- rep -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Repetition Penalty</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedRepetition" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedRepetition" @change="updateQueryParams()">
                 <option>all</option>
                 <option v-for="rep in ALL_REPETITION_PENALTIES">{{ rep }}</option>
               </select>
@@ -276,11 +276,11 @@ function isMaximum(
       </div>
       <!-- attack -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Adversarial Attack</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedAttack" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedAttack" @change="updateQueryParams()">
                 <option>none</option>
                 <option>all</option>
                 <option v-for="atk in ALL_ATTACKS">{{ atk }}</option>
@@ -308,9 +308,15 @@ function isMaximum(
     <table class="table is-striped is-fullwidth is-hoverable">
       <thead>
       <tr>
+        <th colspan="2" class="superheader"></th>
+        <th :colspan="ALL_GENERATOR_MODELS.length" class="superheader has-text-centered">
+          Generator Model
+        </th>
+      </tr>
+      <tr>
         <th>
             <span class="icon-text">
-              <span>Model</span>
+              <span>Detector</span>
             </span>
         </th>
         <th>
@@ -417,7 +423,19 @@ function isMaximum(
   min-height: 350px;
 }
 
+.filter-control {
+  min-width: 12rem;
+}
+
+.w-100 {
+  width: 100%;
+}
+
 .lb-rows-move {
   transition: all 0.5s ease;
+}
+
+.superheader {
+  border-bottom: none;
 }
 </style>
