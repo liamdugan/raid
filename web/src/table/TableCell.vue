@@ -23,11 +23,11 @@ const split = computed(() =>
   )
 )
 
-function getCellColor() {
+const cellColor = computed(() => {
   const acc = split.value?.accuracy
-  if (acc === undefined || acc === null) return 'none'
+  if (acc === undefined || acc === null) return 'transparent'
   return `hsla(${120 * acc}, 100%, 60%, 0.5)`
-}
+})
 </script>
 
 <template>
@@ -41,7 +41,7 @@ function getCellColor() {
       )
     }"
     :style="{
-      'background-color': getCellColor()
+      'background-color': cellColor
     }"
     class="lb-cell"
   >
