@@ -145,13 +145,23 @@ model will appear on the leaderboards!
 If you use our code or findings in your research, please cite us as:
 
 ```
-@misc{dugan2024raid,
-      title={RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors}, 
-      author={Liam Dugan and Alyssa Hwang and Filip Trhlik and Josh Magnus Ludan and Andrew Zhu and Hainiu Xu and Daphne Ippolito and Chris Callison-Burch},
-      year={2024},
-      eprint={2405.07940},
-      archivePrefix={arXiv},
-      primaryClass={cs.CL}
+@inproceedings{dugan-etal-2024-raid,
+    title = "{RAID}: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors",
+    author = "Dugan, Liam  and
+      Hwang, Alyssa  and
+      Trhl{\'\i}k, Filip  and
+      Zhu, Andrew  and
+      Ludan, Josh Magnus  and
+      Xu, Hainiu  and
+      Ippolito, Daphne  and
+      Callison-Burch, Chris",
+    booktitle = "Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)",
+    month = aug,
+    year = "2024",
+    address = "Bangkok, Thailand",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/2024.acl-long.674",
+    pages = "12463--12492",
 }
 ```
 
