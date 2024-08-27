@@ -1,5 +1,5 @@
 <p align="center">
-  &emsp;&nbsp;&nbsp;<a href="https://raid-bench.xyz"><img src="/Users/liamdugan/Desktop/PhDWork/Research/raid/assets/logo.png" alt="RAID" style="max-width: 45%;"></a><br />
+  &emsp;&nbsp;&nbsp;<a href="https://raid-bench.xyz"><img src="assets/logo.png" alt="RAID" style="max-width: 45%;"></a><br />
   <a href="https://raid-bench.xyz"><u><b style="font-size:1.3em;">https://raid-bench.xyz</b></u>&emsp;</a>
 </p>
 <p align="center">
