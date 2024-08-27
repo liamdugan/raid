@@ -1,3 +1,11 @@
+<p align="center">
+  &emsp;&nbsp;&nbsp;<a href="https://raid-bench.xyz"><img src="/Users/liamdugan/Desktop/PhDWork/Research/raid/assets/logo.png" alt="RAID" style="max-width: 45%;"></a><br />
+  <a href="https://raid-bench.xyz"><u><b style="font-size:1.3em;">https://raid-bench.xyz</b></u>&emsp;</a>
+</p>
+<p align="center">
+   <b>Robust AI Detection. Trustworthy Evaluation.</b>
+</p>
+
 # RAID: Robust AI Detection
 
 This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors](https://arxiv.org/abs/2405.07940). In our paper we introduce the RAID dataset and use it to show that current detectors are easily fooled by adversarial attacks, variations in sampling strategies, repetition penalties, and unseen generative models.
