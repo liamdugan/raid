@@ -1,8 +1,6 @@
 <p align="center">
-  &emsp;&nbsp;&nbsp;<a href="https://raid-bench.xyz"><img src="assets/logo.png" alt="RAID" width="400"></a>
-</p>
-<p align="center">
-   <a href="https://raid-bench.xyz"><b>https://raid-bench.xyz</b></a>
+  &emsp;&emsp;<a href="https://raid-bench.xyz"><img src="assets/logo.png" alt="RAID" width="400"></a><br />
+  <a href="https://raid-bench.xyz"><b>https://raid-bench.xyz</b></a>
 </p>
 <p align="center">
    <b>Open Leaderboards. Trustworthy Evaluation. Robust AI Detection.</b>
