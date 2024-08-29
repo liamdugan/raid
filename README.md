@@ -5,6 +5,15 @@
 <p align="center">
    <b>Open Leaderboards. Trustworthy Evaluation. Robust AI Detection.</b>
 </p>
+<p align="center">
+  <a href="https://github.com/liamdugan/raid/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/liamdugan/raid/lint.yml?logo=githubactions&logoColor=white&label=Code Style%20" alt="Code Style" style="max-width: 100%;"></a>
+  <a href="https://pypi.org/project/raid-bench/"><img src="https://badge.fury.io/py/raid-bench.svg"/></a>
+  <a href="https://raid-bench.xyz/"><img src="https://img.shields.io/website.svg?down_color=red&down_message=offline&label=Leaderboard%20%26%20Website&up_message=online&url=https://raid-bench.xyz/"/></a>
+  <br />
+  <a href="https://github.com/liamdugan/raid/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+  <a href="https://liamdugan.com/"><img src="https://img.shields.io/badge/NLP-NLP?labelColor=011F5b&color=990000&label=University%20of%20Pennsylvania"/></a>
+  <a href="https://arxiv.org/abs/2405.07940"><img src="https://img.shields.io/badge/arXiv-2405.07940-b31b1b.svg"/></a>
+</p>
 
 # RAID: Robust AI Detection
 
