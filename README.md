@@ -87,14 +87,23 @@ The RAID dataset includes over 10 million generations split among the following 
 <br />
 
 The splits of the RAID dataset we provide are broken down as follows:
-|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Labels? | Domains | Dataset Size<br>(w/o adversarial) | Dataset Size<br>(w/ adversarial) |
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Labels? | Domains | Dataset Size (w/o adversarial) | Dataset Size (w/ adversarial) |
 | -------- | :-------: | :-------: | :-------: | :-------: |
-|**RAID-train**|✅|News, Books, Abstracts, Reviews, Reddit, <br>Recipes, Wikipedia, Poetry|802M|11.8G| 
-|**RAID-test**|❌|News, Books, Abstracts, Reviews, Reddit, <br>Recipes, Wikipedia, Poetry|81.0M|1.22G|
+|**RAID-train**|✅|News, Books, Abstracts, Reviews, Reddit, Recipes, Wikipedia, Poetry|802M|11.8G| 
+|**RAID-test**|❌|News, Books, Abstracts, Reviews, Reddit, Recipes, Wikipedia, Poetry|81.0M|1.22G|
 |**RAID-extra**|✅|Code, Czech, German|275M|3.71G|
 
-### Download Instructions
-To download the RAID train and test sets via the pypi package, run
+## Comparison
+<p align="center">
+  <img src="assets/table.png" alt="Comparison Table" style="max-width: 100%;">
+  <p align="center">
+    <b>RAID is the only dataset that has coverage across models, domains, sampling strategies, and adversarial attacks</b><br />
+    See our <a class="reference external" href="https://aclanthology.org/2024.acl-long.674/" title="demo.py">ACL 2024 paper</a> for a full comparison
+  </p>
+</p>
+
+### Download RAID
+To download RAID via the pypi package, run
 ```py
 from raid.utils import load_data
 
@@ -109,7 +118,7 @@ test_noadv_df = load_data(split="test", include_adversarial=False)
 extra_noadv_df = load_data(split="extra", include_adversarial=False)
 ```
 
-You can also manually download the data from the following links
+You can also manually download the data using `wget`
 ```
 $ wget https://dataset.raid-bench.xyz/train.csv
 $ wget https://dataset.raid-bench.xyz/test.csv
@@ -118,9 +127,6 @@ $ wget https://dataset.raid-bench.xyz/train_none.csv
 $ wget https://dataset.raid-bench.xyz/test_none.csv
 $ wget https://dataset.raid-bench.xyz/extra_none.csv
 ```
-
-All code used to generate the RAID dataset is located in `/generation`. This includes implementations of generators,
-adversarial attacks, metrics, filtering criteria and other sanity checks and validations.
 
 ## Leaderboard Submission
 
@@ -238,15 +244,6 @@ The output of `evaluate_cli.py` will be a JSON file containing the accuracy of t
 ### Running custom detectors via CLI
 
 If you would like to implement your own detector and still run it via the CLI, you must add it to `detectors/detector.py` so that it can be called via command line argument.
-
-## Comparison
-<p align="center">
-  <img src="assets/table.png" alt="Comparison Table" style="max-width: 100%;">
-  <p align="center">
-    <b>RAID is the only dataset that has coverage across models, domains, sampling strategies, and adversarial attacks</b><br />
-    See our <a class="reference external" href="https://aclanthology.org/2024.acl-long.674/" title="demo.py">ACL 2024 paper</a> for a full comparison
-  </p>
-</p>
 
 ## Citation
 
