@@ -75,7 +75,7 @@ This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchma
 The RAID dataset includes the following generations:
 
 <p align="center">
-  <img src="assets/dataset_overview.png" alt="Dataset Overview" style="max-width: 100%;">
+  <img src="assets/dataset_overview.png" alt="Dataset Overview" width="850">
 </p>
 
 The splits of the RAID dataset we provide are `train, test, extra` - they are broken down as
