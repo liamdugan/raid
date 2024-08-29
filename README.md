@@ -1,5 +1,5 @@
 <p align="center">
-  &emsp;&emsp;<a href="https://raid-bench.xyz"><img src="assets/logo.png" alt="RAID" width="400"></a><br />
+  &emsp;&nbsp;<a href="https://raid-bench.xyz"><img src="assets/logo.png" alt="RAID" width="300"></a><br />
   <a href="https://raid-bench.xyz"><b>https://raid-bench.xyz</b></a>
 </p>
 <p align="center">
@@ -8,20 +8,80 @@
 <p align="center">
   <a href="https://github.com/liamdugan/raid/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/liamdugan/raid/lint.yml?logo=githubactions&logoColor=white&label=Code Style%20" alt="Code Style" style="max-width: 100%;"></a>
   <a href="https://pypi.org/project/raid-bench/"><img src="https://badge.fury.io/py/raid-bench.svg"/></a>
-  <a href="https://raid-bench.xyz/"><img src="https://img.shields.io/website.svg?down_color=red&down_message=offline&label=Leaderboard%20%26%20Website&up_message=online&url=https://raid-bench.xyz/"/></a>
-  <br />
+  <a href="https://raid-bench.xyz/leaderboard"><img src="https://img.shields.io/website.svg?down_color=red&down_message=offline&label=Leaderboard&up_message=online&url=https://raid-bench.xyz/"/></a>
   <a href="https://github.com/liamdugan/raid/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+  <br />
   <a href="https://liamdugan.com/"><img src="https://img.shields.io/badge/NLP-NLP?labelColor=011F5b&color=990000&label=University%20of%20Pennsylvania"/></a>
   <a href="https://arxiv.org/abs/2405.07940"><img src="https://img.shields.io/badge/arXiv-2405.07940-b31b1b.svg"/></a>
 </p>
 
-# RAID: Robust AI Detection
+RAID is the largest & most comprehensive dataset for evaluating AI-generated text detectors. It contains over 10 million documents spanning 11 LLMs, 11 genres, 4 decoding strategies, and 12 adversarial attacks. It is designed to be the go-to location for trustworthy third-party evaluation of popular detectors.
 
-This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors](https://arxiv.org/abs/2405.07940). In our paper we introduce the RAID dataset and use it to show that current detectors are easily fooled by adversarial attacks, variations in sampling strategies, repetition penalties, and unseen generative models.
+<div align="center">
+  <table class="docutils align-default">
+    <tbody>
+        <tr>
+          <td colspan="2">
+            <p align="center"><b>Installation</b></p> <pre lang="bash">pip install raid-bench</pre>
+          </td>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+          <th class="head">Example Usage</th>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+          <td>
+
+```py
+from raid import run_detection, run_evaluation
+from raid.utils import load_data
+
+# Define your detector function
+def my_detector(texts: list[str]) -> list[float]:
+    pass
+
+# Download & Load the RAID dataset
+train_df = load_data(split="train")
+
+# Run your detector on the dataset
+predictions = run_detection(my_detector, train_df)
+
+# Evaluate your detector predictions
+evaluation_result = run_evaluation(predictions, train_df)
+```
+&nbsp;
+          </td>
+        </tr> 
+    </tbody>
+  </table>
+</div>
+
+With RAID you can:
+
+* 🔬 **Train Detectors**: Use our dataset to train large robust detector models
+* 🔄 **Evaluate Generalization**: Ensure your detectors maintain high performance across popular generators and domains
+* 🤝 **Protect Against Adversaries**: Maintain high performance under popular adversarial attacks
+* 📊 **Compare to SOTA**: Compare your detector to state-of-the-art models from academia and industry.
+
+## Comparison
+<p align="center">
+  <img src="assets/table.png" alt="Comparison Table" style="max-width: 100%;">
+  <p align="center">
+    <b>RAID is the only dataset that has coverage across models, domains, sampling strategies, and adversarial attacks</b><br />
+    See our <a class="reference external" href="https://aclanthology.org/2024.acl-long.674/" title="demo.py">ACL 2024 paper</a> for a full comparison
+  </p>
+</p>
+
+<!-- # RAID: Robust AI Detection
+
+This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors](https://arxiv.org/abs/2405.07940). In our paper we introduce the RAID dataset and use it to show that current detectors are easily fooled by adversarial attacks, variations in sampling strategies, repetition penalties, and unseen generative models. -->
 
 ## Usage
 
-### Pypi package (recommended)
+<!-- ### Pypi package (recommended)
 
 If you want to run RAID on a new detector, we recommend using our pypi package. To install first run `pip install raid-bench` and then use the `run_detection` and `run_evaluation` functions as follows: 
 
@@ -42,9 +102,9 @@ predictions = run_detection(my_detector, train_df)
 
 # Run evaluation on your detector predictions
 evaluation_result = run_evaluation(predictions, train_df)
-```
+``` -->
 
-### Installing from Source
+### Installing from Source (not recommended)
 
 If you want to run the detectors we have implemented or use our dataset generation code you should install from source. To do so first clone the repository. Then install in your virtual environment of choice
 
