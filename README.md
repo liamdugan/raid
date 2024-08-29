@@ -1,10 +1,176 @@
-# RAID: Robust AI Detection
+<p align="center">
+  &emsp;&nbsp;<a href="https://raid-bench.xyz"><img src="assets/logo.png" alt="RAID" width="300"></a><br />
+  <a href="https://raid-bench.xyz"><b>https://raid-bench.xyz</b></a>
+</p>
+<p align="center">
+   <b>Open Leaderboards. Trustworthy Evaluation. Robust AI Detection.</b>
+</p>
+<p align="center">
+  <a href="https://github.com/liamdugan/raid/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/liamdugan/raid/lint.yml?logo=githubactions&logoColor=white&label=Code Style%20" alt="Code Style" style="max-width: 100%;"></a>
+  <a href="https://pypi.org/project/raid-bench/"><img src="https://badge.fury.io/py/raid-bench.svg"/></a>
+  <a href="https://raid-bench.xyz/leaderboard"><img src="https://img.shields.io/website.svg?down_color=red&down_message=offline&label=Leaderboard&up_message=online&url=https://raid-bench.xyz/"/></a>
+  <a href="https://github.com/liamdugan/raid/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
+  <br />
+  <a href="https://liamdugan.com/"><img src="https://img.shields.io/badge/NLP-NLP?labelColor=011F5b&color=990000&label=University%20of%20Pennsylvania"/></a>
+  <a href="https://arxiv.org/abs/2405.07940"><img src="https://img.shields.io/badge/arXiv-2405.07940-b31b1b.svg"/></a>
+</p>
 
-This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors](https://arxiv.org/abs/2405.07940). In our paper we introduce the RAID dataset and use it to show that current detectors are easily fooled by adversarial attacks, variations in sampling strategies, repetition penalties, and unseen generative models.
+RAID is the largest & most comprehensive dataset for evaluating AI-generated text detectors. It contains over 10 million documents spanning 11 LLMs, 11 genres, 4 decoding strategies, and 12 adversarial attacks. It is designed to be the go-to location for trustworthy third-party evaluation of popular detectors.
 
-## Usage
+<div align="center">
+  <table class="docutils align-default">
+    <tbody>
+        <tr>
+          <td colspan="2">
+            <p align="center"><b>Installation</b></p> <pre lang="bash">pip install raid-bench</pre>
+          </td>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+          <th class="head">Example Usage</th>
+        </tr>
+    </tbody>
+    <tbody>
+        <tr>
+          <td>
 
-### Pypi package (recommended)
+```py
+from raid import run_detection, run_evaluation
+from raid.utils import load_data
+
+# Define your detector function
+def my_detector(texts: list[str]) -> list[float]:
+    pass
+
+# Download & Load the RAID dataset
+train_df = load_data(split="train")
+
+# Run your detector on the dataset
+predictions = run_detection(my_detector, train_df)
+
+# Evaluate your detector predictions
+evaluation_result = run_evaluation(predictions, train_df)
+```
+&nbsp;
+          </td>
+        </tr> 
+    </tbody>
+  </table>
+</div>
+
+With RAID you can:
+
+* 🔬 **Train Detectors**: Use our dataset to train large robust detector models
+* 🔄 **Evaluate Generalization**: Ensure your detectors maintain high performance across popular generators and domains
+* 🤝 **Protect Against Adversaries**: Maintain high performance under common adversarial attacks
+* 📊 **Compare to SOTA**: Compare your detector to state-of-the-art models from academia and industry.
+
+<!-- # RAID: Robust AI Detection
+
+This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors](https://arxiv.org/abs/2405.07940). In our paper we introduce the RAID dataset and use it to show that current detectors are easily fooled by adversarial attacks, variations in sampling strategies, repetition penalties, and unseen generative models. -->
+
+## Dataset Overview
+
+The RAID dataset includes over 10 million generations from the following categories:
+
+<!-- <p align="center">
+  <img src="assets/dataset_overview.png" alt="Dataset Overview" style="max-width: 100%;">
+</p> -->
+
+|Category| Values|
+| -------- | :-------: |
+|**Models**|ChatGPT, GPT-4, GPT-3 (text-davinci-003), GPT-2 XL, Llama 2 70B (Chat), Cohere, Cohere (Chat), MPT-30B, MPT-30B (Chat), Mistral 7B, Mistral 7B (Chat)|
+|**Domains**|ArXiv Abstracts, Recipes, Reddit Posts, Book Summaries, NYT News Articles, Poetry, IMDb Movie Reviews, Wikipedia, Czech News, German News, Python Code|
+|**Decoding Strategies**|Greedy (T=0), Sampling (T=1), Greedy + Repetition Penalty (T=0, Θ=1.2), Sampling + Repetition Penalty (T=1, Θ=1.2)|
+|**Adversarial Attacks**|Article Deletion, Homoglyph, Number Swap, Paraphrase, Synonym Swap, Misspelling, Whitespace Addition, Upper-Lower Swap, Zero-Width Space, Insert Paragraphs, Alternative Spelling|
+
+### Comparison
+<p align="center">
+  <img src="assets/table.png" alt="Comparison Table" style="max-width: 100%;">
+  <p align="center">
+    <b>RAID is the only dataset that covers diverse models, domains, sampling strategies, and attacks</b><br />
+    See our <a class="reference external" href="https://aclanthology.org/2024.acl-long.674/" title="demo.py">ACL 2024 paper</a> for a more detailed comparison
+  </p>
+</p>
+
+## Download RAID
+The partitions of the RAID dataset we provide are broken down as follows:
+|&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Labels? | Domains | Dataset Size (w/o adversarial) | Dataset Size (w/ adversarial) |
+| -------- | :-------: | :-------: | :-------: | :-------: |
+|**RAID-train**|✅|News, Books, Abstracts, Reviews, Reddit, Recipes, Wikipedia, Poetry|802M|11.8G| 
+|**RAID-test**|❌|News, Books, Abstracts, Reviews, Reddit, Recipes, Wikipedia, Poetry|81.0M|1.22G|
+|**RAID-extra**|✅|Code, Czech, German|275M|3.71G|
+
+To download RAID via the pypi package, run
+```py
+from raid.utils import load_data
+
+# Download the RAID dataset with adversarial attacks included
+train_df = load_data(split="train")
+test_df = load_data(split="test")
+extra_df = load_data(split="extra")
+
+# Download the RAID dataset without adversarial attacks
+train_noadv_df = load_data(split="train", include_adversarial=False)
+test_noadv_df = load_data(split="test", include_adversarial=False)
+extra_noadv_df = load_data(split="extra", include_adversarial=False)
+```
+
+You can also manually download the data using `wget`
+```
+$ wget https://dataset.raid-bench.xyz/train.csv
+$ wget https://dataset.raid-bench.xyz/test.csv
+$ wget https://dataset.raid-bench.xyz/extra.csv
+$ wget https://dataset.raid-bench.xyz/train_none.csv
+$ wget https://dataset.raid-bench.xyz/test_none.csv
+$ wget https://dataset.raid-bench.xyz/extra_none.csv
+```
+
+## Leaderboard Submission
+
+To submit to the leaderboard, you must first get predictions for your detector on the test set. You can do so using either the pypi package or the CLI:
+
+### Using Pypi
+```py
+import json
+
+from raid import run_detection, run_evaluation
+from raid.utils import load_data
+
+# Define your detector function
+def my_detector(texts: list[str]) -> list[float]:
+    pass
+
+# Load the RAID test data
+test_df = load_data(split="test")
+
+# Run your detector on the dataset
+predictions = run_detection(my_detector, test_df)
+
+with open('predictions.json') as f:
+    json.dump(predictions, f)
+```
+
+### Using CLI
+
+```
+$ python detect_cli.py -m my_detector -d test.csv -o predictions.json
+```
+
+After you have the `predictions.json` file you must then write a metadata file for your submission. Your metadata file should use the template found in
+this repository at `leaderboard/template-metadata.json`.
+
+Finally, fork this repository. Add your generation files to `leaderboard/submissions/YOUR-DETECTOR-NAME/predictions.json` and your metadata file to `leaderboard/submissions/YOUR-DETECTOR-NAME/metadata.json` and make a pull request to this repository.
+
+Our GitHub bot will automatically run evaluations on the submitted predictions and commit the results to
+`leaderboard/submissions/YOUR-DETECTOR-NAME/results.json`. If all looks well, a maintainer will merge the PR and your
+model will appear on the leaderboards!
+
+> [!NOTE]
+> You may submit multiple detectors in a single PR - each detector should have its own directory.
+
+<!-- ### Pypi package (recommended)
 
 If you want to run RAID on a new detector, we recommend using our pypi package. To install first run `pip install raid-bench` and then use the `run_detection` and `run_evaluation` functions as follows: 
 
@@ -25,9 +191,9 @@ predictions = run_detection(my_detector, train_df)
 
 # Run evaluation on your detector predictions
 evaluation_result = run_evaluation(predictions, train_df)
-```
+``` -->
 
-### Installing from Source
+## Installing from Source
 
 If you want to run the detectors we have implemented or use our dataset generation code you should install from source. To do so first clone the repository. Then install in your virtual environment of choice
 
@@ -77,68 +243,6 @@ The output of `evaluate_cli.py` will be a JSON file containing the accuracy of t
 ### Running custom detectors via CLI
 
 If you would like to implement your own detector and still run it via the CLI, you must add it to `detectors/detector.py` so that it can be called via command line argument.
-
-## Data
-
-The main RAID dataset is partitioned into 90% train and 10% test set. It includes generations from the following 8 domains: NYT News Articles, IMDb movie reviews, Paper Abstracts, Poems, Reddit posts, Recipes, Book Summaries, and Wikipedia.
-
-To download the RAID train and test sets manually, run
-```
-$ wget https://dataset.raid-bench.xyz/train.csv
-$ wget https://dataset.raid-bench.xyz/test.csv
-```
-
-We also release an extra split of the dataset which consists of generations from three extra domains: Python Code, German News, and Czech News. To download the extra data run
-
-```
-$ wget https://dataset.raid-bench.xyz/extra.csv
-```
-
-All code used to generate the RAID dataset is located in `/generation`. This includes implementations of generators,
-adversarial attacks, metrics, filtering criteria and other sanity checks and validations.
-
-## Leaderboard Submission
-
-To submit to the leaderboard, you must first get predictions for your detector on the test set. You can do so using either the pypi package or the CLI:
-
-### Using Pypi
-```py
-import json
-
-from raid import run_detection, run_evaluation
-from raid.utils import load_data
-
-# Define your detector function
-def my_detector(texts: list[str]) -> list[float]:
-    pass
-
-# Load the RAID test data
-test_df = load_data(split="test")
-
-# Run your detector on the dataset
-predictions = run_detection(my_detector, test_df)
-
-with open('predictions.json') as f:
-    json.dump(predictions, f)
-```
-
-### Using CLI
-
-```
-$ python detect_cli.py -m gltr -d test.csv -o predictions.json
-```
-
-After you have the `predictions.json` file you must then write a metadata file for your submission. Your metadata file should use the template found in
-this repository at `leaderboard/template-metadata.json`.
-
-Finally, fork this repository. Add your generation files to `leaderboard/submissions/YOUR-DETECTOR-NAME/predictions.json` and your metadata file to `leaderboard/submissions/YOUR-DETECTOR-NAME/metadata.json` and make a pull request to this repository.
-
-Our GitHub bot will automatically run evaluations on the submitted predictions and commit the results to
-`leaderboard/submissions/YOUR-DETECTOR-NAME/results.json`. If all looks well, a maintainer will merge the PR and your
-model will appear on the leaderboards!
-
-> [!NOTE]
-> You may submit multiple detectors in a single PR - each detector should have its own directory.
 
 ## Citation
 
