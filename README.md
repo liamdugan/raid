@@ -72,37 +72,36 @@ This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchma
 
 ## Dataset Overview
 
-The RAID dataset includes over 10 million generations split among the following categories:
+The RAID dataset includes over 10 million generations from the following categories:
 
 <!-- <p align="center">
   <img src="assets/dataset_overview.png" alt="Dataset Overview" style="max-width: 100%;">
 </p> -->
 
-|||
+|Category| Values|
 | -------- | :-------: |
 |**Models**|ChatGPT, GPT-4, GPT-3 (text-davinci-003), GPT-2 XL, Llama 2 70B (Chat), Cohere, Cohere (Chat), MPT-30B, MPT-30B (Chat), Mistral 7B, Mistral 7B (Chat)|
 |**Domains**|ArXiv Abstracts, Recipes, Reddit Posts, Book Summaries, NYT News Articles, Poetry, IMDb Movie Reviews, Wikipedia, Czech News, German News, Python Code|
 |**Decoding Strategies**|Greedy (T=0), Sampling (T=1), Greedy + Repetition Penalty (T=0, Θ=1.2), Sampling + Repetition Penalty (T=1, Θ=1.2)|
 |**Adversarial Attacks**|Article Deletion, Homoglyph, Number Swap, Paraphrase, Synonym Swap, Misspelling, Whitespace Addition, Upper-Lower Swap, Zero-Width Space, Insert Paragraphs, Alternative Spelling|
-<br />
 
-The splits of the RAID dataset we provide are broken down as follows:
+### Comparison
+<p align="center">
+  <img src="assets/table.png" alt="Comparison Table" style="max-width: 100%;">
+  <p align="center">
+    <b>RAID is the only dataset that covers diverse models, domains, sampling strategies, and attacks</b><br />
+    See our <a class="reference external" href="https://aclanthology.org/2024.acl-long.674/" title="demo.py">ACL 2024 paper</a> for a more detailed comparison
+  </p>
+</p>
+
+## Download RAID
+The partitions of the RAID dataset we provide are broken down as follows:
 |&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Labels? | Domains | Dataset Size (w/o adversarial) | Dataset Size (w/ adversarial) |
 | -------- | :-------: | :-------: | :-------: | :-------: |
 |**RAID-train**|✅|News, Books, Abstracts, Reviews, Reddit, Recipes, Wikipedia, Poetry|802M|11.8G| 
 |**RAID-test**|❌|News, Books, Abstracts, Reviews, Reddit, Recipes, Wikipedia, Poetry|81.0M|1.22G|
 |**RAID-extra**|✅|Code, Czech, German|275M|3.71G|
 
-## Comparison
-<p align="center">
-  <img src="assets/table.png" alt="Comparison Table" style="max-width: 100%;">
-  <p align="center">
-    <b>RAID is the only dataset that has coverage across models, domains, sampling strategies, and adversarial attacks</b><br />
-    See our <a class="reference external" href="https://aclanthology.org/2024.acl-long.674/" title="demo.py">ACL 2024 paper</a> for a full comparison
-  </p>
-</p>
-
-### Download RAID
 To download RAID via the pypi package, run
 ```py
 from raid.utils import load_data
@@ -156,7 +155,7 @@ with open('predictions.json') as f:
 ### Using CLI
 
 ```
-$ python detect_cli.py -m gltr -d test.csv -o predictions.json
+$ python detect_cli.py -m my_detector -d test.csv -o predictions.json
 ```
 
 After you have the `predictions.json` file you must then write a metadata file for your submission. Your metadata file should use the template found in
