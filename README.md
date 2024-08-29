@@ -72,13 +72,21 @@ This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchma
 
 ## Dataset Overview
 
-The RAID dataset includes the following generations:
+The RAID dataset includes over 10 million generations split among the following categories:
 
-<p align="center">
+<!-- <p align="center">
   <img src="assets/dataset_overview.png" alt="Dataset Overview" style="max-width: 100%;">
-</p>
+</p> -->
 
-The splits of the RAID dataset we provide are `train, test, extra` - they are broken down as
+|||
+| -------- | :-------: |
+|**Models**|ChatGPT, GPT-4, GPT-3 (text-davinci-003), GPT-2 XL, Llama 2 70B (Chat), Cohere, Cohere (Chat), MPT-30B, MPT-30B (Chat), Mistral 7B, Mistral 7B (Chat)|
+|**Domains**|ArXiv Abstracts, Recipes, Reddit Posts, Book Summaries, NYT News Articles, Poetry, IMDb Movie Reviews, Wikipedia, Czech News, German News, Python Code|
+|**Decoding Strategies**|Greedy (T=0), Sampling (T=1), Greedy + Repetition Penalty (T=0, Θ=1.2), Sampling + Repetition Penalty (T=1, Θ=1.2)|
+|**Adversarial Attacks**|Article Deletion, Homoglyph, Number Swap, Paraphrase, Synonym Swap, Misspelling, Whitespace Addition, Upper-Lower Swap, Zero-Width Space, Insert Paragraphs, Alternative Spelling|
+<br />
+
+The splits of the RAID dataset we provide are broken down as follows:
 |&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;| Labels? | Domains | Dataset Size<br>(w/o adversarial) | Dataset Size<br>(w/ adversarial) |
 | -------- | :-------: | :-------: | :-------: | :-------: |
 |**RAID-train**|✅|News, Books, Abstracts, Reviews, Reddit, <br>Recipes, Wikipedia, Poetry|802M|11.8G| 
