@@ -6,9 +6,9 @@
   "detector_name": "It's AI",
   "contact_info": "dog.vol.serg@gmail.com",
   "website": "https://its-ai.org/",
-  "paper_link": "None",
-  "huggingface_link": "None",
-  "github_link": "None",
+  "paper_link": null,
+  "huggingface_link": null,
+  "github_link": null,
   "score_agg": {
     "all": {
       "domain": "all",
