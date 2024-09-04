@@ -127,6 +127,12 @@ $ wget https://dataset.raid-bench.xyz/test_none.csv
 $ wget https://dataset.raid-bench.xyz/extra_none.csv
 ```
 
+**NEW: You can also now download RAID through the [HuggingFace Datasets 🤗](https://huggingface.co/datasets/liamdugan/raid) Library**
+```py
+from datasets import load_dataset
+raid = load_dataset("liamdugan/raid")
+```
+
 ## Leaderboard Submission
 
 To submit to the leaderboard, you must first get predictions for your detector on the test set. You can do so using either the pypi package or the CLI:
