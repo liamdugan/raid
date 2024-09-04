@@ -42,10 +42,12 @@ def load_data(split: Literal["train", "test", "extra"], include_adversarial: boo
     if split not in ("train", "test", "extra"):
         raise ValueError('`split` must be one of ("train", "test", "extra")')
 
+    fname = f"{split}.csv" if include_adversarial else f"{split}_none.csv"
+
     if fp is None:
-        fname = f"{split}.csv" if include_adversarial else f"{split}_none.csv"
         fp = RAID_CACHE_DIR / fname
     else:
         fp = Path(fp)
+
     fp = download_file(f"{RAID_DATA_URL_BASE}/{fname}", fp)
     return pd.read_csv(fp)
