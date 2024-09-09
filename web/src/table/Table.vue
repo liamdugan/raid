@@ -13,6 +13,7 @@ import {
   findSplit,
   type Submission
 } from './data'
+import TableCell from '@/table/TableCell.vue'
 
 // setup
 const props = defineProps<{
@@ -34,7 +35,6 @@ const selectedDecoding = ref('all')
 const selectedRepetition = ref('all')
 const selectedAttack = ref('none')
 
-
 // computed
 const filteredSortedData = computed(() => {
   // RAID specific: select the right score from the settings
@@ -50,13 +50,43 @@ const filteredSortedData = computed(() => {
     for (const [sorterKey, direction] of sortOrders) {
       let val = 0
       if (direction === SortOrder.ASC) {
-        val = numeric((datum) => findSplit(datum, sorterKey, selectedDomain.value, selectedDecoding.value, selectedRepetition.value, selectedAttack.value)?.accuracy ?? -999)(a, b)
+        val = numeric(
+          (datum) =>
+            findSplit(
+              datum,
+              sorterKey,
+              selectedDomain.value,
+              selectedDecoding.value,
+              selectedRepetition.value,
+              selectedAttack.value
+            )?.accuracy ?? -999
+        )(a, b)
       } else if (direction === SortOrder.DESC) {
-        val = numericDesc((datum) => findSplit(datum, sorterKey, selectedDomain.value, selectedDecoding.value, selectedRepetition.value, selectedAttack.value)?.accuracy ?? -999)(a, b)
+        val = numericDesc(
+          (datum) =>
+            findSplit(
+              datum,
+              sorterKey,
+              selectedDomain.value,
+              selectedDecoding.value,
+              selectedRepetition.value,
+              selectedAttack.value
+            )?.accuracy ?? -999
+        )(a, b)
       }
       if (val) return val
     }
-    return numericDesc((datum) => findSplit(datum, 'all', selectedDomain.value, selectedDecoding.value, selectedRepetition.value, selectedAttack.value)?.accuracy ?? -999)(a, b)
+    return numericDesc(
+      (datum) =>
+        findSplit(
+          datum,
+          'all',
+          selectedDomain.value,
+          selectedDecoding.value,
+          selectedRepetition.value,
+          selectedAttack.value
+        )?.accuracy ?? -999
+    )(a, b)
   })
 })
 
@@ -234,11 +264,11 @@ function isMaximum(
       <!--      </div>-->
       <!-- domain -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Domain</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedDomain" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedDomain" @change="updateQueryParams()">
                 <option>all</option>
                 <option v-for="domain in ALL_DOMAINS">{{ domain }}</option>
               </select>
@@ -248,11 +278,11 @@ function isMaximum(
       </div>
       <!-- decoding -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Decoding Strategy</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedDecoding" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedDecoding" @change="updateQueryParams()">
                 <option>all</option>
                 <option v-for="decoding in ALL_DECODINGS">{{ decoding }}</option>
               </select>
@@ -262,11 +292,11 @@ function isMaximum(
       </div>
       <!-- rep -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Repetition Penalty</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedRepetition" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedRepetition" @change="updateQueryParams()">
                 <option>all</option>
                 <option v-for="rep in ALL_REPETITION_PENALTIES">{{ rep }}</option>
               </select>
@@ -276,11 +306,11 @@ function isMaximum(
       </div>
       <!-- attack -->
       <div class="level-item">
-        <div class="field">
+        <div class="field filter-control">
           <label class="label">Adversarial Attack</label>
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedAttack" @change="updateQueryParams()">
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedAttack" @change="updateQueryParams()">
                 <option>none</option>
                 <option>all</option>
                 <option v-for="atk in ALL_ATTACKS">{{ atk }}</option>
@@ -307,13 +337,19 @@ function isMaximum(
   <div class="table-container mt-4">
     <table class="table is-striped is-fullwidth is-hoverable">
       <thead>
-      <tr>
-        <th>
+        <tr>
+          <th colspan="2" class="superheader"></th>
+          <th :colspan="ALL_GENERATOR_MODELS.length" class="superheader has-text-centered">
+            Generator Model
+          </th>
+        </tr>
+        <tr>
+          <th>
             <span class="icon-text">
-              <span>Model</span>
+              <span>Detector</span>
             </span>
-        </th>
-        <th>
+          </th>
+          <th>
             <span class="icon-text">
               <span>Aggregate</span>
               <SortIcon
@@ -324,9 +360,9 @@ function isMaximum(
                 @directionChanged="onSortDirectionChange('all', $event)"
               />
             </span>
-        </th>
-        <th v-for="gen in ALL_GENERATOR_MODELS">
-          <span class="icon-text">
+          </th>
+          <th v-for="gen in ALL_GENERATOR_MODELS">
+            <span class="icon-text">
               <span>{{ gen }}</span>
               <SortIcon
                 class="ml-1"
@@ -336,8 +372,8 @@ function isMaximum(
                 @directionChanged="onSortDirectionChange(gen, $event)"
               />
             </span>
-        </th>
-      </tr>
+          </th>
+        </tr>
       </thead>
 
       <TransitionGroup tag="tbody" name="lb-rows">
@@ -350,38 +386,41 @@ function isMaximum(
             <div class="icon-text">
               <a :href="datum.website" v-if="datum.website" target="_blank">🌐 </a>
               <a :href="datum.paper_link" v-if="datum.paper_link" target="_blank">📄 </a>
-              <a :href="datum.huggingface_link" v-if="datum.huggingface_link" target="_blank">🤗 </a>
-              <a :href="datum.github_link" v-if="datum.github_link" target="_blank" style="padding-top: 1px">
+              <a :href="datum.huggingface_link" v-if="datum.huggingface_link" target="_blank"
+                >🤗
+              </a>
+              <a
+                :href="datum.github_link"
+                v-if="datum.github_link"
+                target="_blank"
+                style="padding-top: 1px"
+              >
                 <!-- dirty css hack but it works -->
                 <span class="icon is-small">
-                  <img src="@/assets/github-mark.svg">
+                  <img src="@/assets/github-mark.svg" />
                 </span>
               </a>
             </div>
           </td>
-          <td
-            :class="{
-              'has-text-weight-bold': isMaximum(
-                findSplit(datum, 'all', selectedDomain, selectedDecoding, selectedRepetition, selectedAttack)?.accuracy ?? 0,
-                (d) => findSplit(d, 'all', selectedDomain, selectedDecoding, selectedRepetition, selectedAttack)?.accuracy ?? 0
-              )
-            }"
-          >
-            {{ findSplit(datum, 'all', selectedDomain, selectedDecoding, selectedRepetition, selectedAttack)?.accuracy?.toFixed(3) ?? '--'
-            }}
-          </td>
-          <td
+          <TableCell
+            :datum="datum"
+            model="all"
+            :selected-domain="selectedDomain"
+            :selected-decoding="selectedDecoding"
+            :selected-repetition="selectedRepetition"
+            :selected-attack="selectedAttack"
+            :is-maximum="isMaximum"
+          />
+          <TableCell
             v-for="gen in ALL_GENERATOR_MODELS"
-            :class="{
-              'has-text-weight-bold': isMaximum(
-                findSplit(datum, gen, selectedDomain, selectedDecoding, selectedRepetition, selectedAttack)?.accuracy ?? 0,
-                (d) => findSplit(d, gen, selectedDomain, selectedDecoding, selectedRepetition, selectedAttack)?.accuracy ?? 0
-              )
-            }"
-          >
-            {{ findSplit(datum, gen, selectedDomain, selectedDecoding, selectedRepetition, selectedAttack)?.accuracy?.toFixed(3) ?? '--'
-            }}
-          </td>
+            :datum="datum"
+            :model="gen"
+            :selected-domain="selectedDomain"
+            :selected-decoding="selectedDecoding"
+            :selected-repetition="selectedRepetition"
+            :selected-attack="selectedAttack"
+            :is-maximum="isMaximum"
+          />
         </tr>
       </TransitionGroup>
     </table>
@@ -415,6 +454,18 @@ function isMaximum(
 <style scoped>
 .table-container {
   min-height: 350px;
+}
+
+.filter-control {
+  min-width: 12rem;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.superheader {
+  border-bottom: none;
 }
 
 .lb-rows-move {
