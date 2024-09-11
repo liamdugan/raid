@@ -8,8 +8,8 @@ def load_detection_result(df, results):
     scores_df = pd.DataFrame.from_records(results)
 
     # If df has a pre-existing score column, remove it before merging
-    if 'score' in df.columns:
-        df = df.drop(columns=['score'])
+    if "score" in df.columns:
+        df = df.drop(columns=["score"])
 
     # Merge dataframes based on the id and validate that ids are unique
     return df.join(scores_df.set_index("id"), on="id", validate="one_to_one")
