@@ -32,9 +32,11 @@ def find_threshold(df, target_fpr, epsilon):
     try:
         threshold = sum(y_scores) / len(y_scores)  # initialize threshold to mean of y_scores
     except ZeroDivisionError:
-        raise ValueError("Predictions are missing outputs for human-written texts in some domains.\n"
+        raise ValueError(
+            "Predictions are missing outputs for human-written texts in some domains.\n"
             + "In order to run evaluation, you must include predictions for human-written data in all domains.\n"
-            + "To disable this, set per_domain_tuning=False in run_evaluation.") from None
+            + "To disable this, set per_domain_tuning=False in run_evaluation."
+        ) from None
 
     # Initialize the list of all found thresholds and FPRs
     found_threshold_list = []
