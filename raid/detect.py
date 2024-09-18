@@ -3,7 +3,7 @@ def run_detection(f, df):
     scores_df = df[["id"]].copy()
 
     # Run the detector function on the dataset and put output in score column
-    scores_df["score"] = f(df["generation"])
+    scores_df["score"] = f(df["generation"].tolist())
 
     # Convert scores and ids to dict in 'records' format for seralization
     # e.g. [{'id':'...', 'score':0}, {'id':'...', 'score':1}, ...]
