@@ -7,6 +7,10 @@ def load_detection_result(df, results):
     # Load the dataframe and read in the scores
     scores_df = pd.DataFrame.from_records(results)
 
+    # If df has a pre-existing score column, remove it before merging
+    if "score" in df.columns:
+        df = df.drop(columns=["score"])
+
     # Merge dataframes based on the id and validate that ids are unique
     return df.join(scores_df.set_index("id"), on="id", validate="one_to_one")
 
@@ -23,8 +27,16 @@ def find_threshold(df, target_fpr, epsilon):
     prev_dist = None
     step_size = 0.5
     y_scores = df[(df["model"] == "human") & (df["attack"] == "none") & (df["score"].notnull())]["score"].tolist()
-    threshold = sum(y_scores) / len(y_scores)  # initialize threshold to mean of y_scores
     sign = lambda x: -1 if x < 0 else 1
+
+    try:
+        threshold = sum(y_scores) / len(y_scores)  # initialize threshold to mean of y_scores
+    except ZeroDivisionError:
+        raise ValueError(
+            "Predictions are missing outputs for human-written texts in some domains.\n"
+            + "In order to run evaluation, you must include predictions for human-written data in all domains.\n"
+            + "To disable this, set per_domain_tuning=False in run_evaluation."
+        ) from None
 
     # Initialize the list of all found thresholds and FPRs
     found_threshold_list = []

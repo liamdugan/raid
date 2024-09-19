@@ -30,6 +30,7 @@ class SubmissionMetadata:
     paper_link: str | None = None
     huggingface_link: str | None = None
     github_link: str | None = None
+    additional_metadata: dict | None = None
 
 
 @dataclass
