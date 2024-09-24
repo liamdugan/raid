@@ -70,6 +70,10 @@ With RAID you can:
 
 This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors](https://arxiv.org/abs/2405.07940). In our paper we introduce the RAID dataset and use it to show that current detectors are easily fooled by adversarial attacks, variations in sampling strategies, repetition penalties, and unseen generative models. -->
 
+## News
+
+- **[Sep 24 2024]** **ANNOUNCEMENT** - RAID will appear as a Shared Task at **COLING 2025**! See the [Github](https://github.com/liamdugan/COLING-2025-Workshop-on-MGT-Detection-Task-3) and [Website](https://genai-content-detection.gitlab.io/) for more details! Submission Deadline is October 25th 2024.
+
 ## Dataset Overview
 
 The RAID dataset includes over 10 million generations from the following categories:
