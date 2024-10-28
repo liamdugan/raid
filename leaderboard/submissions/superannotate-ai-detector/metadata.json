@@ -1,0 +1,8 @@
+{
+  "date_released": "2024-10-27",
+  "detector_name": "SuperAnnotate AI Detector",
+  "website": "https://www.superannotate.com/",
+  "huggingface_link": "https://huggingface.co/SuperAnnotate/ai-detector",
+  "github_link": "https://github.com/superannotateai/generated_text_detector",
+  "contact_info": "yuriy@superannotate.com"
+}
