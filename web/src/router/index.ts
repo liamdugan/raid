@@ -12,8 +12,14 @@ const routes = [
   {
     path: '/leaderboard',
     name: 'Leaderboard',
-    component: () => import(/* webpackChunkName: "paissa" */ '@/views/Leaderboard.vue'),
+    component: () => import(/* webpackChunkName: "leaderboard" */ '@/views/Leaderboard.vue'),
     meta: { title: 'Leaderboard - RAID Benchmark' }
+  },
+  {
+    path: '/shared-task',
+    name: 'Shared Task Leaderboard',
+    component: () => import(/* webpackChunkName: "sharedtask" */ '@/views/SharedTask.vue'),
+    meta: { title: 'COLING Shared Task - RAID Benchmark' }
   },
   { path: '/about', name: 'About Us', component: AboutUs },
   { path: '/faq', name: 'FAQ', component: FAQ },
