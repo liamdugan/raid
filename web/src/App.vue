@@ -19,6 +19,7 @@
         <div class="navbar-start">
           <RouterLink to="/" class="navbar-item"> Home</RouterLink>
           <RouterLink to="/leaderboard" class="navbar-item"> Leaderboard</RouterLink>
+          <RouterLink to="/shared-task" class="navbar-item"> COLING Shared Task</RouterLink>
           <!--          <RouterLink to="/about" class="navbar-item"> About Us </RouterLink>-->
           <!--          <RouterLink to="/faq" class="navbar-item"> FAQ </RouterLink>-->
         </div>
