@@ -1,5 +1,6 @@
 import allScores from '@/data/all-scores.json'
 import { noAll, noNone, unique } from '@/table/utils'
+import sharedTaskScores from '@/data/shared-task-scores.json'
 
 // raw data
 export interface Submission {
@@ -13,8 +14,7 @@ export interface Submission {
   scores: SubmissionScore[]
 }
 
-export interface Datum extends Submission {
-}
+export interface Datum extends Submission {}
 
 export interface SubmissionScore {
   model: string
@@ -26,7 +26,14 @@ export interface SubmissionScore {
 }
 
 // utils
-export function findSplit(datum: Datum, model: string = 'all', domain: string = 'all', decoding: string = 'all', repetition_penalty: string = 'all', attack: string = 'none') {
+export function findSplit(
+  datum: Datum,
+  model: string = 'all',
+  domain: string = 'all',
+  decoding: string = 'all',
+  repetition_penalty: string = 'all',
+  attack: string = 'none'
+) {
   return datum.scores.find(
     (score) =>
       score.model === model &&
@@ -39,6 +46,8 @@ export function findSplit(datum: Datum, model: string = 'all', domain: string = 
 
 // consts
 export const ALL_SCORES: Submission[] = allScores
+export const SHARED_TASK_SCORES: Submission[] = sharedTaskScores
+
 // ASSUMPTION: there is at least one submission and all submissions have the same (model, domain, decoding, repetition_penalty) options
 // export const ALL_GENERATOR_MODELS = ALL_SCORES.map(sub => sub.scores)
 //   .flat()
