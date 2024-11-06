@@ -17,8 +17,12 @@ onMounted(async () => {
     <div class="container">
       <h1 class="title">RAID Benchmark: Shared Task Leaderboard</h1>
       <p>
-        This is the place for the COLING Shared Task leaderboard. It's cool. If the text still says
-        this, Liam hasn't edited it.
+        These are the results for the
+        <a href="https://genai-content-detection.gitlab.io/sharedtasks" target="_blank">
+          COLING 2025 Cross-Domain Machine-Generated Text Detection Shared Task.
+        </a>
+        <br></br>
+        Note: This leaderboard is still a work in progress and will continue to be updated for a few days while we finish evaluation.
       </p>
     </div>
   </section>
