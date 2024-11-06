@@ -1,0 +1,8 @@
+{
+  "date_released": "2021-11-18",
+  "detector_name": "MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+  "paper_link": "https://arxiv.org/pdf/2111.09543",
+  "huggingface_link": "https://huggingface.co/MoritzLaurer/mDeBERTa-v3-base-mnli-xnli",
+  "github_link": "https://github.com/microsoft/DeBERTa/",
+  "contact_info": "a.shifali@iitg.ac.in"
+}
