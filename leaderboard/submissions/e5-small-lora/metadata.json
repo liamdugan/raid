@@ -1,6 +1,6 @@
 {
   "date_released": "2024-11-07",
-  "detector_name": "my-detector",
+  "detector_name": "e5-small-lora",
   "website": "Link to Homepage (Optional) e.g. https://example.com/",
   "paper_link": "Link to Paper (Optional) e.g. https://arxiv.org/abs/1706.03762",
   "huggingface_link": "Link to HF model (Optional) e.g. https://huggingface.co/google-bert/bert-base-uncased",
