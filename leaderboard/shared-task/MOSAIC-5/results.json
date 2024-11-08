@@ -5,10 +5,10 @@
   "date_released": "2024-10-29",
   "detector_name": "MOSAIC-5",
   "contact_info": "Email Address: duboism@isir.upmc.fr",
-  "website": "",
+  "website": null,
   "paper_link": "https://arxiv.org/abs/2409.07615",
-  "huggingface_link": "",
-  "github_link": "Coming soon",
+  "huggingface_link": null,
+  "github_link": null,
   "additional_metadata": null,
   "score_agg": {
     "all": {

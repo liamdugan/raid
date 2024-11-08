@@ -6,9 +6,9 @@
   "detector_name": "Leidos Detector v1.0.3",
   "contact_info": "gregorios.a.katsios@leidos.com",
   "website": null,
-  "paper_link": "N/A",
-  "huggingface_link": "N/A",
-  "github_link": "N/A",
+  "paper_link": null,
+  "huggingface_link": null,
+  "github_link": null,
   "additional_metadata": null,
   "score_agg": {
     "all": {
