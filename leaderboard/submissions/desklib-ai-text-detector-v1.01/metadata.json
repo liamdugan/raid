@@ -1,0 +1,8 @@
+{
+  "date_released": "2025-02-16",
+  "detector_name": "Desklib AI Text Detector v1.01",
+  "website": "https://desklib.com/ai-content-detector/",
+  "github_link": "https://github.com/desklib/ai-text-detector",
+  "huggingface_link": "https://huggingface.co/desklib/ai-text-detector-v1.01",
+  "contact_info": "info@desklib.com"
+}
