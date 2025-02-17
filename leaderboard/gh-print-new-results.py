@@ -24,8 +24,8 @@ for fp in sys.argv[1:]:
     else:
         print(
             "On the RAID dataset as a whole (aggregated across all generation models, domains, decoding strategies,"
-            " repetition penalties, and adversarial attacks), it achieved an accuracy of "
-            f"**{score_agg['accuracy']:.2%}**."
+            " repetition penalties, and adversarial attacks), it achieved a TPR of "
+            f"**{score_agg['accuracy']:.2%}** at FPR=5%."
         )
 
     score_agg_no_adversarial = results["score_agg"]["no_adversarial"]
@@ -33,7 +33,7 @@ for fp in sys.argv[1:]:
         print(f"\n> [!WARNING]\n> {score_agg_no_adversarial['_note']}")
     else:
         print(
-            f"Without adversarial attacks, it achieved an accuracy of **{score_agg_no_adversarial['accuracy']:.2%}**."
+            f"Without adversarial attacks, it achieved a TPR of **{score_agg_no_adversarial['accuracy']:.2%}** at FPR=5%."
         )
 
 print(
