@@ -22,7 +22,11 @@ onMounted(async () => {
           COLING 2025 Cross-Domain Machine-Generated Text Detection Shared Task.
         </a>
         <br></br>
-        Note: This leaderboard is still a work in progress and will continue to be updated for a few days while we finish evaluation.
+        Please consult our
+        <a href="https://arxiv.org/abs/2501.08913" target="_blank">
+          ArXiv Paper
+        </a>
+        for more detailed analysis of the results.
       </p>
     </div>
   </section>
