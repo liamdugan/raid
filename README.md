@@ -71,7 +71,7 @@ With RAID you can:
 This repository contains the code for the ACL 2024 paper [RAID: A Shared Benchmark for Robust Evaluation of Machine-Generated Text Detectors](https://arxiv.org/abs/2405.07940). In our paper we introduce the RAID dataset and use it to show that current detectors are easily fooled by adversarial attacks, variations in sampling strategies, repetition penalties, and unseen generative models. -->
 
 ## News
-
+- **[Jan 15 2025]** The results of the Shared Task are now public! Check out the [Shared Task Leaderboard](https://raid-bench.xyz/shared-task) or read our [Paper](https://arxiv.org/abs/2501.08913) for the full analysis. Thanks so much to all who entered the competition!
 - **[Sep 24 2024]** **ANNOUNCEMENT** - RAID will appear as a Shared Task at **COLING 2025**! See the [Github](https://github.com/liamdugan/COLING-2025-Workshop-on-MGT-Detection-Task-3) and [Website](https://genai-content-detection.gitlab.io/) for more details! Submission Deadline is October 25th 2024.
 
 ## Dataset Overview
@@ -253,6 +253,30 @@ The output of `evaluate_cli.py` will be a JSON file containing the accuracy of t
 ### Running custom detectors via CLI
 
 If you would like to implement your own detector and still run it via the CLI, you must add it to `detectors/detector.py` so that it can be called via command line argument.
+
+### Running adversarial attacks
+
+After installing from source, you can also run any of the adversarial attacks from the paper.
+To do this, navigate to the `generation/adversarial` subfolder and run the following
+
+Example:
+```py
+from attack import get_attack
+
+attack_name = "homoglyph"
+a = get_attack(attack_name)
+print(a.attack("Hello World"))
+```
+This will print a dictionary with the attacked text, the number of edits, and the indices of the edits in the string.
+```
+{'generation': 'Ηеllо Wоrld', 'num_edits': 4, 'edits': [(0, 1), (1, 2), (4, 5), (7, 8)]}
+```
+
+The list of all valid inputs to `get_attack` is listed below:
+```
+["homoglyph", "number", "article_deletion", "insert_paragraphs", "perplexity_misspelling", "upper_lower", "whitespace", "zero_width_space", "synonym", "paraphrase", "alternative_spelling"]
+```
+(This can also be found in `generation/adversarial/attack.py`)
 
 ## Citation
 
