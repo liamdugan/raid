@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, roc_auc_score
 
 
 def load_detection_result(df, results):
@@ -102,10 +102,12 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
 
     # Filter out human data
     df = df[df["model"] != "human"]
+    dfh = df[df["model"] == "human"]
 
     # For each domain, attack, model, and decoding strategy, filter the dataset
     for d in get_unique_items(df, "domain", include_all):
         dfd = df[df["domain"] == d] if d != "all" else df
+        dfh_filter = dfh[dfh["domain"] == d] if d != "all" else dfh
         for a in get_unique_items(df, "attack", include_all):
             dfa = dfd[dfd["attack"] == a] if a != "all" else dfd
             for m in get_unique_items(df, "model", include_all):
@@ -116,15 +118,18 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                         df_filter = dfs[dfs["repetition_penalty"] == r] if r != "all" else dfs
 
                         # If no outputs for this split, continue
-                        if len(df_filter) == 0:
+                        if len(df_filter) == 0 or len(dfh_filter) == 0:
                             continue
 
                         # If we're requiring all scores to be present and there are null scores, continue
-                        if require_complete and (len(df_filter[df_filter["score"].isnull()]) > 0):
+                        null_mgt_scores = len(df_filter[df_filter["score"].isnull()]) > 0
+                        null_human_scores = len(dfh_filter[dfh_filter["score"].isnull()]) > 0
+                        if require_complete and (null_mgt_scores or null_human_scores):
                             continue
 
                         # Remove null scores from the dataframe
                         df_filter = df_filter[df_filter["score"].notnull()]
+                        dfh_filter = dfh_filter[dfh_filter["score"].notnull()]
 
                         # Initialize predictions
                         preds = []
@@ -152,11 +157,19 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                         y_pred = np.concatenate(preds, axis=0)
                         y_true = np.ones(len(y_pred))
 
+                        # Get the scores for human data
+                        y_hum_pred = dfh_filter["score"].to_numpy()
+                        y_hum_true = np.zeros(len(y_hum_pred))
+
+                        # Combine scores for both positive and negative examples
+                        y_score = np.concatenate((y_pred, y_hum_pred), axis=0)
+                        y_comb_true = np.concatenate((y_true, y_hum_true), axis=0)
+
                         # Calculate the true positives and false negatives
                         tp = y_pred.sum()
                         fn = len(y_pred) - tp
 
-                        # Compute accuracy and add to scores
+                        # Compute accuracy and auroc and add to scores
                         scores.append(
                             {
                                 "domain": d,
@@ -167,6 +180,7 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                                 "tp": int(tp),
                                 "fn": int(fn),
                                 "accuracy": accuracy_score(y_true, y_pred),
+                                "auroc": roc_auc_score(y_comb_true, y_score),
                             }
                         )
     return scores
