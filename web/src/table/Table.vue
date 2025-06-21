@@ -9,6 +9,7 @@ import {
   ALL_DOMAINS,
   ALL_GENERATOR_MODELS,
   ALL_REPETITION_PENALTIES,
+  ALL_METRICS,
   type Datum,
   findSplit,
   type Submission
@@ -34,6 +35,7 @@ const selectedDomain = ref('all')
 const selectedDecoding = ref('all')
 const selectedRepetition = ref('all')
 const selectedAttack = ref('none')
+const selectedMetric = ref('AUROC')
 
 // computed
 const filteredSortedData = computed(() => {
@@ -220,6 +222,7 @@ function clearFilters() {
   selectedDecoding.value = 'all'
   selectedRepetition.value = 'all'
   selectedAttack.value = 'none'
+  selectedMetric.value = 'AUROC'
   filterSelections.clear()
   sortOrders.clear()
   updateQueryParams()
@@ -314,6 +317,18 @@ function isMaximum(
                 <option>none</option>
                 <option>all</option>
                 <option v-for="atk in ALL_ATTACKS">{{ atk }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="level-item">
+        <div class="field filter-control">
+          <label class="label">Metric</label>
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedMetric" @change="updateQueryParams()">
+                <option v-for="metric in ALL_METRICS">{{ metric }}</option>
               </select>
             </div>
           </div>
@@ -457,7 +472,7 @@ function isMaximum(
 }
 
 .filter-control {
-  min-width: 12rem;
+  min-width: 9rem;
 }
 
 .w-100 {

@@ -91,6 +91,11 @@ export const ALL_ATTACKS = [
   'alternative_spelling',
   'zero_width_space'
 ]
+export const ALL_METRICS = [
+  'AUROC',
+  'TPR@FPR=5%',
+  'TPR@FPR=1%'
+]
 
 // ===== old dynamic generation =====
 // // Array.filter(unique) -> unique elements of that arr, preserving order
