@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from collections import defaultdict, Sequence
 from sklearn.metrics import accuracy_score, roc_auc_score
 
 
@@ -78,16 +79,18 @@ def find_threshold(df, target_fpr, epsilon):
     return threshold, compute_fpr(y_scores, threshold)
 
 
-def compute_thresholds(df, fpr=0.05, epsilon=0.0005, per_domain_tuning=True):
-    if not per_domain_tuning:
-        return find_threshold(df, fpr, epsilon)
+def compute_thresholds(df, fpr, epsilon=0.0005, per_domain_tuning=True):
+    thresholds = defaultdict(dict)
+    true_fprs = defaultdict(dict)
 
-    thresholds = {}
-    true_fprs = {}
-    for d in df.domain.unique():
-        t, true_fpr = find_threshold(df[df["domain"] == d], fpr, epsilon)
-        thresholds[d] = t
-        true_fprs[d] = true_fpr
+    for fpr_value in fpr:
+        if not per_domain_tuning:
+            thresholds[fpr_value] = find_threshold(df, fpr_value, epsilon)
+
+        for d in df.domain.unique():
+            t, true_fpr = find_threshold(df[df["domain"] == d], fpr_value, epsilon)
+            thresholds[fpr_value][d] = t
+            true_fprs[fpr_value][d] = true_fpr
 
     return thresholds, true_fprs
 
@@ -100,14 +103,14 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
     # Initialize the list of records for the scores
     scores = []
 
-    # Filter out human data
+    # Separate human from model data
     df = df[df["model"] != "human"]
     dfh = df[df["model"] == "human"]
 
     # For each domain, attack, model, and decoding strategy, filter the dataset
     for d in get_unique_items(df, "domain", include_all):
         dfd = df[df["domain"] == d] if d != "all" else df
-        dfh_filter = dfh[dfh["domain"] == d] if d != "all" else dfh
+        dfh_filter = dfh[dfh["domain"] == d] if d != "all" else dfh  # filter human on domain only
         for a in get_unique_items(df, "attack", include_all):
             dfa = dfd[dfd["attack"] == a] if a != "all" else dfd
             for m in get_unique_items(df, "model", include_all):
@@ -131,45 +134,51 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                         df_filter = df_filter[df_filter["score"].notnull()]
                         dfh_filter = dfh_filter[dfh_filter["score"].notnull()]
 
-                        # Initialize predictions
-                        preds = []
+                        # For each target FPR value
+                        tprs = {}
+                        for fpr in thresholds.keys():
+                            # Initialize predictions
+                            preds = []
 
-                        # For each domain in df_filter
-                        for domain in df_filter.domain.unique():
-                            # Filter the dataset to just that domain
-                            df_domain = df_filter[df_filter["domain"] == domain]
+                            # For each domain in df_filter
+                            for domain in df_filter.domain.unique():
+                                # Filter the dataset to just that domain
+                                df_domain = df_filter[df_filter["domain"] == domain]
 
-                            # Select the domain-specific threshold to use for classification
-                            # (If thresholds is a dict, use the domain-specific threshold)
-                            t = thresholds[domain] if type(thresholds) == dict else thresholds
+                                # Select the domain-specific threshold to use for classification
+                                # (If thresholds is a dict, use the domain-specific threshold)
+                                t = thresholds[domain] if type(thresholds) == dict else thresholds
 
-                            # Get the 0 to 1 scores for the detector
-                            y_model = df_domain["score"].to_numpy()
+                                # Get the 0 to 1 scores for the detector
+                                y_model = df_domain["score"].to_numpy()
 
-                            # Threshold scores using the threshold for this detector
-                            # Source: https://stackoverflow.com/a/45648782
-                            y_pred = (y_model >= t).astype(int)
+                                # Threshold scores using the threshold for this detector
+                                # Source: https://stackoverflow.com/a/45648782
+                                y_pred = (y_model >= t).astype(int)
 
-                            # Add the prediction array to the list of predictions
-                            preds.append(y_pred)
+                                # Add the prediction array to the list of predictions
+                                preds.append(y_pred)
 
-                        # Concatenate the predictions together
-                        y_pred = np.concatenate(preds, axis=0)
-                        y_true = np.ones(len(y_pred))
+                            # Concatenate the predictions together
+                            y_pred = np.concatenate(preds, axis=0)
+                            y_true = np.ones(len(y_pred))
 
-                        # Get the scores for human data
-                        y_hum_pred = dfh_filter["score"].to_numpy()
-                        y_hum_true = np.zeros(len(y_hum_pred))
+                            # Calculate the true positives and false negatives
+                            tp = y_pred.sum()
+                            fn = len(y_pred) - tp
 
-                        # Combine scores for both positive and negative examples
-                        y_score = np.concatenate((y_pred, y_hum_pred), axis=0)
+                            # Add this result to the TPR dictionary
+                            tprs[fpr] = {"tp": int(tp), "fn": int(fn), "accuracy": accuracy_score(y_true, y_pred)}
+
+                        # Compute AUROC
+                        y_mgt_scores = df_filter["score"].to_numpy()
+                        y_hum_scores = dfh_filter["score"].to_numpy()
+                        y_hum_true = np.zeros(len(y_hum_scores))
+                        y_score = np.concatenate((y_mgt_scores, y_hum_scores), axis=0)
                         y_comb_true = np.concatenate((y_true, y_hum_true), axis=0)
+                        auroc = roc_auc_score(y_comb_true, y_score)
 
-                        # Calculate the true positives and false negatives
-                        tp = y_pred.sum()
-                        fn = len(y_pred) - tp
-
-                        # Compute accuracy and auroc and add to scores
+                        # Add to the scores record
                         scores.append(
                             {
                                 "domain": d,
@@ -177,10 +186,8 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                                 "decoding": s,
                                 "repetition_penalty": r,
                                 "attack": a,
-                                "tp": int(tp),
-                                "fn": int(fn),
-                                "accuracy": accuracy_score(y_true, y_pred),
-                                "auroc": roc_auc_score(y_comb_true, y_score),
+                                "accuracy": tprs,
+                                "auroc": auroc,
                             }
                         )
     return scores
@@ -189,6 +196,10 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
 def run_evaluation(
     results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuning=True, require_complete=True, include_all=True
 ):
+    # Make target_fpr a list if it isn't already one
+    if not isinstance(target_fpr, Sequence):
+        target_fpr = [target_fpr]
+
     # Add detector outputs into a 'score' column
     df = load_detection_result(df, results)
 
@@ -198,4 +209,4 @@ def run_evaluation(
     # Compute accuracy scores for each split of the data
     scores = compute_scores(df, thresholds, require_complete)
 
-    return {"scores": scores, "thresholds": thresholds, "fpr": fprs, "target_fpr": target_fpr}
+    return {"scores": scores, "thresholds": thresholds, "fpr": fprs}
