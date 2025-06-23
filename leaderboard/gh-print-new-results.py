@@ -14,7 +14,7 @@ for fp in sys.argv[1:]:
 
     print(
         f"### {results['detector_name']}\n*Release date: {results['date_released']}*\n\nI've"
-        f" committed detailed results of this detector's performance on the test set to this PR.\n"
+        " committed detailed results of this detector's performance on the test set to this PR.\n"
     )
 
     # report aggregate scores
@@ -25,7 +25,7 @@ for fp in sys.argv[1:]:
         print(
             "On the RAID dataset as a whole (aggregated across all generation models, domains, decoding strategies,"
             " repetition penalties, and adversarial attacks), it achieved a TPR of "
-            f"**{score_agg['accuracy']:.2%}** at FPR=5%."
+            f"**{score_agg['accuracy']['0.05']:.2%}** at FPR=5% and **{score_agg['accuracy']['0.01']:.2%}** at FPR=1%."
         )
 
     score_agg_no_adversarial = results["score_agg"]["no_adversarial"]
@@ -33,9 +33,11 @@ for fp in sys.argv[1:]:
         print(f"\n> [!WARNING]\n> {score_agg_no_adversarial['_note']}")
     else:
         print(
-            f"Without adversarial attacks, it achieved a TPR of **{score_agg_no_adversarial['accuracy']:.2%}** at FPR=5%."
+            f"Without adversarial attacks, it achieved a TPR of **{score_agg_no_adversarial['accuracy']['0.05']:.2%}**"
+            f" at FPR=5% and **{score_agg_no_adversarial['accuracy']['0.01']:.2%}** at FPR=1%."
         )
 
+print()
 print(
     "If all looks well, a maintainer will come by soon to merge this PR and your entry/entries will appear on the"
     " leaderboard. If you need to make any changes, feel free to push new commits to this PR. Thanks for submitting to"

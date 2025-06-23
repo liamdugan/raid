@@ -1,6 +1,8 @@
+from collections import defaultdict
+from collections.abc import Sequence
+
 import numpy as np
 import pandas as pd
-from collections import defaultdict, Sequence
 from sklearn.metrics import accuracy_score, roc_auc_score
 
 
@@ -85,12 +87,12 @@ def compute_thresholds(df, fpr, epsilon=0.0005, per_domain_tuning=True):
 
     for fpr_value in fpr:
         if not per_domain_tuning:
-            thresholds[fpr_value] = find_threshold(df, fpr_value, epsilon)
+            thresholds[str(fpr_value)] = find_threshold(df, fpr_value, epsilon)
 
         for d in df.domain.unique():
             t, true_fpr = find_threshold(df[df["domain"] == d], fpr_value, epsilon)
-            thresholds[fpr_value][d] = t
-            true_fprs[fpr_value][d] = true_fpr
+            thresholds[str(fpr_value)][d] = t
+            true_fprs[str(fpr_value)][d] = true_fpr
 
     return thresholds, true_fprs
 

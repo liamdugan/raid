@@ -13,13 +13,18 @@ export interface Submission {
 export interface Datum extends Submission {
 }
 
+export interface SubmissionMetric {
+  accuracy: number | null
+}
+
 export interface SubmissionScore {
   model: string
   domain: string
   decoding: string
   repetition_penalty: string
   attack: string
-  accuracy: number | null
+  accuracy: { [fpr: number]: SubmissionMetric }
+  auroc: number | null
 }
 
 // utils
@@ -39,6 +44,22 @@ export function findSplit(
       score.repetition_penalty === repetition_penalty &&
       score.attack === attack
   )
+}
+
+export function getMetricValue(
+  score: SubmissionScore | undefined,
+  metric: typeof ALL_METRICS[number]
+): number | null {
+  if (score === undefined) return null
+  switch (metric) {
+    case 'AUROC':
+      return score.auroc
+    case 'TPR@FPR=5%':
+      return score.accuracy['0.05'].accuracy
+    case 'TPR@FPR=1%':
+      return score.accuracy['0.01'].accuracy
+  }
+  return null
 }
 
 // data
@@ -65,7 +86,7 @@ export const ALL_GENERATOR_MODELS = [
   'llama-chat',
   'mpt',
   'mpt-chat'
-]
+] as const
 export const ALL_DOMAINS = [
   'abstracts',
   'books',
@@ -75,9 +96,9 @@ export const ALL_DOMAINS = [
   'reddit',
   'reviews',
   'wiki'
-]
-export const ALL_DECODINGS = ['greedy', 'sampling']
-export const ALL_REPETITION_PENALTIES = ['no', 'yes']
+] as const
+export const ALL_DECODINGS = ['greedy', 'sampling'] as const
+export const ALL_REPETITION_PENALTIES = ['no', 'yes'] as const
 export const ALL_ATTACKS = [
   'whitespace',
   'upper_lower',
@@ -90,12 +111,12 @@ export const ALL_ATTACKS = [
   'article_deletion',
   'alternative_spelling',
   'zero_width_space'
-]
+] as const
 export const ALL_METRICS = [
   'AUROC',
   'TPR@FPR=5%',
   'TPR@FPR=1%'
-]
+] as const
 
 // ===== old dynamic generation =====
 // // Array.filter(unique) -> unique elements of that arr, preserving order

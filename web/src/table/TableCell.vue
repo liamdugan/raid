@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Datum, findSplit } from '@/table/data'
+import { ALL_METRICS, type Datum, findSplit, getMetricValue } from '@/table/data'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -9,6 +9,7 @@ const props = defineProps<{
   selectedDecoding: string
   selectedRepetition: string
   selectedAttack: string
+  selectedMetric: typeof ALL_METRICS[number]
   isMaximum: (x: number, attr: (datum: Datum) => number, round?: (x: number) => any) => boolean
 }>()
 
@@ -24,7 +25,7 @@ const split = computed(() =>
 )
 
 const cellColor = computed(() => {
-  const acc = split.value?.accuracy
+  const acc = getMetricValue(split.value, props.selectedMetric)
   if (acc === undefined || acc === null) return 'transparent'
   return `hsla(${120 * acc}, 100%, 60%, 0.5)`
 })
@@ -34,10 +35,19 @@ const cellColor = computed(() => {
   <td
     :class="{
       'has-text-weight-bold': isMaximum(
-        split?.accuracy ?? 0,
+        getMetricValue(split, selectedMetric) ?? 0,
         (d) =>
-          findSplit(d, model, selectedDomain, selectedDecoding, selectedRepetition, selectedAttack)
-            ?.accuracy ?? 0
+          getMetricValue(
+            findSplit(
+              d,
+              model,
+              selectedDomain,
+              selectedDecoding,
+              selectedRepetition,
+              selectedAttack
+            ),
+            selectedMetric
+          ) ?? 0
       )
     }"
     :style="{
@@ -45,7 +55,7 @@ const cellColor = computed(() => {
     }"
     class="lb-cell"
   >
-    {{ split?.accuracy?.toFixed(3) ?? '--' }}
+    {{ getMetricValue(split, selectedMetric)?.toFixed(3) ?? '--' }}
   </td>
 </template>
 

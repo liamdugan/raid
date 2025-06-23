@@ -1,20 +1,21 @@
 <script setup lang="ts">
-import { filters } from './filters'
-import { numeric, numericDesc, SortOrder } from './sorters'
-import SortIcon from './SortIcon.vue'
+import TableCell from '@/table/TableCell.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import {
   ALL_ATTACKS,
   ALL_DECODINGS,
   ALL_DOMAINS,
   ALL_GENERATOR_MODELS,
-  ALL_REPETITION_PENALTIES,
   ALL_METRICS,
+  ALL_REPETITION_PENALTIES,
   type Datum,
   findSplit,
+  getMetricValue,
   type Submission
 } from './data'
-import TableCell from '@/table/TableCell.vue'
+import { filters } from './filters'
+import { numeric, numericDesc, SortOrder } from './sorters'
+import SortIcon from './SortIcon.vue'
 
 // setup
 const props = defineProps<{
@@ -35,7 +36,7 @@ const selectedDomain = ref('all')
 const selectedDecoding = ref('all')
 const selectedRepetition = ref('all')
 const selectedAttack = ref('none')
-const selectedMetric = ref('AUROC')
+const selectedMetric = ref<(typeof ALL_METRICS)[number]>('AUROC')
 
 // computed
 const filteredSortedData = computed(() => {
@@ -54,40 +55,49 @@ const filteredSortedData = computed(() => {
       if (direction === SortOrder.ASC) {
         val = numeric(
           (datum) =>
-            findSplit(
-              datum,
-              sorterKey,
-              selectedDomain.value,
-              selectedDecoding.value,
-              selectedRepetition.value,
-              selectedAttack.value
-            )?.accuracy ?? -999
+            getMetricValue(
+              findSplit(
+                datum,
+                sorterKey,
+                selectedDomain.value,
+                selectedDecoding.value,
+                selectedRepetition.value,
+                selectedAttack.value
+              ),
+              selectedMetric.value
+            ) ?? -999
         )(a, b)
       } else if (direction === SortOrder.DESC) {
         val = numericDesc(
           (datum) =>
-            findSplit(
-              datum,
-              sorterKey,
-              selectedDomain.value,
-              selectedDecoding.value,
-              selectedRepetition.value,
-              selectedAttack.value
-            )?.accuracy ?? -999
+            getMetricValue(
+              findSplit(
+                datum,
+                sorterKey,
+                selectedDomain.value,
+                selectedDecoding.value,
+                selectedRepetition.value,
+                selectedAttack.value
+              ),
+              selectedMetric.value
+            ) ?? -999
         )(a, b)
       }
       if (val) return val
     }
     return numericDesc(
       (datum) =>
-        findSplit(
-          datum,
-          'all',
-          selectedDomain.value,
-          selectedDecoding.value,
-          selectedRepetition.value,
-          selectedAttack.value
-        )?.accuracy ?? -999
+        getMetricValue(
+          findSplit(
+            datum,
+            'all',
+            selectedDomain.value,
+            selectedDecoding.value,
+            selectedRepetition.value,
+            selectedAttack.value
+          ),
+          selectedMetric.value
+        ) ?? -999
     )(a, b)
   })
 })
@@ -424,6 +434,7 @@ function isMaximum(
             :selected-decoding="selectedDecoding"
             :selected-repetition="selectedRepetition"
             :selected-attack="selectedAttack"
+            :selected-metric="selectedMetric"
             :is-maximum="isMaximum"
           />
           <TableCell
@@ -434,6 +445,7 @@ function isMaximum(
             :selected-decoding="selectedDecoding"
             :selected-repetition="selectedRepetition"
             :selected-attack="selectedAttack"
+            :selected-metric="selectedMetric"
             :is-maximum="isMaximum"
           />
         </tr>
