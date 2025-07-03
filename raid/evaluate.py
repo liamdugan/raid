@@ -122,7 +122,6 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                     for r in get_unique_items(df, "repetition_penalty", include_all):
                         df_filter = dfs[dfs["repetition_penalty"] == r] if r != "all" else dfs
 
-                        #print(f"Inner loop. DF filer len is {len(df_filter)} dfh filter len is {len(dfh_filter)}")
                         # If no outputs for this split, continue
                         if len(df_filter) == 0 or len(dfh_filter) == 0:
                             continue
