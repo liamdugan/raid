@@ -106,8 +106,8 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
     scores = []
 
     # Separate human from model data
-    df = df[df["model"] != "human"]
     dfh = df[df["model"] == "human"]
+    df = df[df["model"] != "human"]
 
     # For each domain, attack, model, and decoding strategy, filter the dataset
     for d in get_unique_items(df, "domain", include_all):
@@ -122,6 +122,7 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                     for r in get_unique_items(df, "repetition_penalty", include_all):
                         df_filter = dfs[dfs["repetition_penalty"] == r] if r != "all" else dfs
 
+                        #print(f"Inner loop. DF filer len is {len(df_filter)} dfh filter len is {len(dfh_filter)}")
                         # If no outputs for this split, continue
                         if len(df_filter) == 0 or len(dfh_filter) == 0:
                             continue
@@ -139,6 +140,9 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
                         # For each target FPR value
                         tprs = {}
                         for fpr in thresholds.keys():
+                            # Get thresholds for the particular fpr value
+                            fpr_thresholds = thresholds[fpr]
+
                             # Initialize predictions
                             preds = []
 
@@ -149,7 +153,7 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
 
                                 # Select the domain-specific threshold to use for classification
                                 # (If thresholds is a dict, use the domain-specific threshold)
-                                t = thresholds[domain] if type(thresholds) == dict else thresholds
+                                t = fpr_thresholds[domain] if type(fpr_thresholds) == dict else fpr_thresholds
 
                                 # Get the 0 to 1 scores for the detector
                                 y_model = df_domain["score"].to_numpy()
