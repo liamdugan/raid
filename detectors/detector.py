@@ -10,6 +10,8 @@ from .models.originality_ai.originality_ai import OriginalityAI
 from .models.radar.radar import Radar
 from .models.winston_ai.winston_ai import WinstonAI
 from .models.zerogpt.zerogpt import ZeroGPT
+from .models.desklib.desklib import Desklib
+from .models.e5_small_lora.e5_lora import E5Lora
 
 
 class Detector:
@@ -50,5 +52,9 @@ def get_detector(detector_name: str) -> Detector:
         return OriginalityAI()
     elif detector_name == "binoculars":
         return Binoculars()
+    elif detector_name == "desklib":
+        return Desklib()
+    elif detector_name == "e5lora":
+        return E5Lora()
     else:
         raise ValueError("Invalid detector name")

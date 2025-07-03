@@ -6,13 +6,13 @@ from tqdm import tqdm
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 
-class Radar:
+class E5Lora:
     def __init__(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.detector = AutoModelForSequenceClassification.from_pretrained(
-            "TrustSafeAI/RADAR-Vicuna-7B"
+            "MayZhou/e5-small-lora-ai-generated-detector"
         )
-        self.tokenizer = AutoTokenizer.from_pretrained("TrustSafeAI/RADAR-Vicuna-7B")
+        self.tokenizer = AutoTokenizer.from_pretrained("MayZhou/e5-small-lora-ai-generated-detector")
         self.detector.eval()
         self.detector.to(self.device)
 

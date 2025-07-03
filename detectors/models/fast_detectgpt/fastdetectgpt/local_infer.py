@@ -39,21 +39,20 @@ class ProbEstimator:
 
 
 class FastDetectGPTModel:
-    def __init__(self, scoring_model_name, reference_model_name, cache_dir, dataset, device, ref_path, use_log_rank):
+    def __init__(self, scoring_model_name, reference_model_name, dataset, device, ref_path, use_log_rank):
         self.device = device
         self.dataset = dataset
-        self.cache_dir = cache_dir
         self.scoring_model_name = scoring_model_name
         self.reference_model_name = reference_model_name
         self.ref_path = ref_path
 
         # load model
-        self.scoring_tokenizer = load_tokenizer(self.scoring_model_name, self.dataset, self.cache_dir)
-        self.scoring_model = load_model(self.scoring_model_name, self.device, self.cache_dir)
+        self.scoring_tokenizer = load_tokenizer(self.scoring_model_name, self.dataset)
+        self.scoring_model = load_model(self.scoring_model_name, self.device)
         self.scoring_model.eval()
         if self.reference_model_name != self.scoring_model_name:
-            self.reference_tokenizer = load_tokenizer(self.reference_model_name, self.dataset, self.cache_dir)
-            self.reference_model = load_model(self.reference_model_name, self.device, self.cache_dir)
+            self.reference_tokenizer = load_tokenizer(self.reference_model_name, self.dataset)
+            self.reference_model = load_model(self.reference_model_name, self.device)
             self.reference_model.eval()
 
         # evaluate criterion
