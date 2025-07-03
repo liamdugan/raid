@@ -9,9 +9,7 @@ from transformers import AutoModelForSequenceClassification, AutoTokenizer
 class Radar:
     def __init__(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
-        self.detector = AutoModelForSequenceClassification.from_pretrained(
-            "TrustSafeAI/RADAR-Vicuna-7B"
-        )
+        self.detector = AutoModelForSequenceClassification.from_pretrained("TrustSafeAI/RADAR-Vicuna-7B")
         self.tokenizer = AutoTokenizer.from_pretrained("TrustSafeAI/RADAR-Vicuna-7B")
         self.detector.eval()
         self.detector.to(self.device)

@@ -5,6 +5,7 @@ import torch.nn.functional as F
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoConfig, AutoModel, PreTrainedModel
 
+
 class DesklibAIDetectionModel(PreTrainedModel):
     config_class = AutoConfig
 
@@ -38,6 +39,7 @@ class DesklibAIDetectionModel(PreTrainedModel):
         if loss is not None:
             output["loss"] = loss
         return output
+
 
 # def main():
 #     # --- Model and Tokenizer Directory ---
@@ -83,17 +85,11 @@ class Desklib:
 
     def predict_single_text(self, text, model, tokenizer, device, max_len=768):
         """
-            Predicts whether the given text is AI-generated.
+        Predicts whether the given text is AI-generated.
         """
-        encoded = tokenizer(
-            text,
-            padding="max_length",
-            truncation=True,
-            max_length=max_len,
-            return_tensors='pt'
-        )
-        input_ids = encoded['input_ids'].to(device)
-        attention_mask = encoded['attention_mask'].to(device)
+        encoded = tokenizer(text, padding="max_length", truncation=True, max_length=max_len, return_tensors="pt")
+        input_ids = encoded["input_ids"].to(device)
+        attention_mask = encoded["attention_mask"].to(device)
 
         model.eval()
         with torch.no_grad():
