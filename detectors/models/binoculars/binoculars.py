@@ -30,14 +30,12 @@ class Binoculars(object):
             observer_name_or_path,
             device_map={"": DEVICE_1},
             trust_remote_code=True,
-            cache_dir=os.environ["CACHE_DIR"],
             torch_dtype=torch.bfloat16 if use_bfloat16 else torch.float32,
         )
         self.performer_model = AutoModelForCausalLM.from_pretrained(
             performer_name_or_path,
             device_map={"": DEVICE_2},
             trust_remote_code=True,
-            cache_dir=os.environ["CACHE_DIR"],
             torch_dtype=torch.bfloat16 if use_bfloat16 else torch.float32,
         )
 

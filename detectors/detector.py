@@ -10,6 +10,7 @@ from .models.originality_ai.originality_ai import OriginalityAI
 from .models.radar.radar import Radar
 from .models.winston_ai.winston_ai import WinstonAI
 from .models.zerogpt.zerogpt import ZeroGPT
+from .models.conda.conda import Conda
 
 
 class Detector:
@@ -50,5 +51,7 @@ def get_detector(detector_name: str) -> Detector:
         return OriginalityAI()
     elif detector_name == "binoculars":
         return Binoculars()
+    if detector_name == "conda":
+        return Conda()
     else:
         raise ValueError("Invalid detector name")

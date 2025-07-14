@@ -9,9 +9,9 @@ from transformers import RobertaForSequenceClassification, RobertaTokenizer
 
 class GPT2Detector:
 
-    path_to_weights = os.path.abspath("detectors/gpt2_detector/openai-gpt-2-detector/detector_weights")
-    if not os.path.exists(path_to_weights):
-        os.makedirs(path_to_weights)
+    # path_to_weights = os.path.abspath("detectors/gpt2_detector/openai-gpt-2-detector/detector_weights")
+    # if not os.path.exists(path_to_weights):
+    #     os.makedirs(path_to_weights)
     device = "cuda" if torch.cuda.is_available() else "cpu"
 
     def __init__(self, model) -> None:

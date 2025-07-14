@@ -21,3 +21,4 @@ generation/*.json
 test_labels.json
 /dist
 /venv
+/models/conda/ConDA-gen-test-detection

@@ -9,13 +9,13 @@ import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
-def from_pretrained(cls, model_name, kwargs, cache_dir):
+def from_pretrained(cls, model_name, kwargs):
     # local_path = os.path.join(cache_dir, 'local.' + model_name.replace("/", "_"))
     # try:
     #     obj = cls.from_pretrained(local_path, **kwargs)
     # except Exception as ex:
     #     print(ex)
-    obj = cls.from_pretrained(model_name, **kwargs, cache_dir=cache_dir)
+    obj = cls.from_pretrained(model_name, **kwargs)
     # obj.save_pretrained(local_path)
     return obj
 
@@ -43,7 +43,7 @@ def get_model_fullname(model_name):
     return model_fullnames[model_name] if model_name in model_fullnames else model_name
 
 
-def load_model(model_name, device, cache_dir):
+def load_model(model_name, device):
     model_fullname = get_model_fullname(model_name)
     print(f"Loading model {model_fullname}...")
     model_kwargs = {}
@@ -51,7 +51,7 @@ def load_model(model_name, device, cache_dir):
         model_kwargs.update(dict(torch_dtype=torch.float16))
     if "gpt-j" in model_name:
         model_kwargs.update(dict(revision="float16"))
-    model = from_pretrained(AutoModelForCausalLM, model_fullname, model_kwargs, cache_dir)
+    model = from_pretrained(AutoModelForCausalLM, model_fullname, model_kwargs)
     print("Moving model to GPU...", end="", flush=True)
     start = time.time()
     model.to(device)
@@ -59,7 +59,7 @@ def load_model(model_name, device, cache_dir):
     return model
 
 
-def load_tokenizer(model_name, for_dataset, cache_dir):
+def load_tokenizer(model_name, for_dataset):
     model_fullname = get_model_fullname(model_name)
     optional_tok_kwargs = {}
     if "facebook/opt-" in model_fullname:
@@ -69,7 +69,7 @@ def load_tokenizer(model_name, for_dataset, cache_dir):
         optional_tok_kwargs["padding_side"] = "left"
     else:
         optional_tok_kwargs["padding_side"] = "right"
-    base_tokenizer = from_pretrained(AutoTokenizer, model_fullname, optional_tok_kwargs, cache_dir=cache_dir)
+    base_tokenizer = from_pretrained(AutoTokenizer, model_fullname, optional_tok_kwargs)
     if base_tokenizer.pad_token_id is None:
         base_tokenizer.pad_token_id = base_tokenizer.eos_token_id
         if "13b" in model_fullname:

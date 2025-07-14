@@ -12,7 +12,6 @@ class FastDetectGPT:
         self.fast_detect_gpt_instance = FastDetectGPTModel(
             scoring_model_name="gpt-neo-2.7B",
             reference_model_name="gpt-j-6B",
-            cache_dir=os.environ["CACHE_DIR"],
             dataset="xsum",
             device="cuda",
             ref_path=ref_path,

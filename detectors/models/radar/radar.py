@@ -10,7 +10,7 @@ class Radar:
     def __init__(self):
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         self.detector = AutoModelForSequenceClassification.from_pretrained(
-            "TrustSafeAI/RADAR-Vicuna-7B", cache_dir=os.environ["CACHE_DIR"]
+            "TrustSafeAI/RADAR-Vicuna-7B"
         )
         self.tokenizer = AutoTokenizer.from_pretrained("TrustSafeAI/RADAR-Vicuna-7B")
         self.detector.eval()
