@@ -201,12 +201,24 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
 
 
 def remove_failed_fpr_scores(scores, fprs, epsilon, per_domain_tuning):
-    """Removes all scores that do not meet the target FPR"""
+    """Remove scores for any domain that doesn't meet the target FPR"""
+    fprs_with_removed_scores = []
     for i, record in enumerate(scores):
-        for target_fpr in record["accuracy"].keys():
-            fpr = fprs[target_fpr][record["domain"]] if per_domain_tuning else fprs[target_fpr]
-            if abs(fpr - target_fpr) > epsilon:
-                scores[i]["accuracy"][target_fpr] = None
+        if record["domain"] != "all":
+            for target_fpr in record["accuracy"].keys():
+                fpr = fprs[target_fpr][record["domain"]] if per_domain_tuning else fprs[target_fpr]
+                if fpr - float(target_fpr) > epsilon:
+                    scores[i]["accuracy"][target_fpr] = None
+                    if target_fpr not in fprs_with_removed_scores:
+                        fprs_with_removed_scores.append(target_fpr)
+    
+    # If we've removed scores, remove the score for the 'all' domain as well
+    if len(fprs_with_removed_scores) > 0:
+        for i, record in enumerate(scores):
+            if record["domain"] == "all":
+                for fpr in fprs_with_removed_scores:
+                    scores[i]["accuracy"][fpr] = None
+    
     return scores
 
 
@@ -227,6 +239,6 @@ def run_evaluation(
     scores = compute_scores(df, thresholds, require_complete)
 
     # Remove all of the scores that do not meet the target FPR values
-    scores = remove_failed_fpr_scores(scores, thresholds, fprs, epsilon, per_domain_tuning)
+    scores = remove_failed_fpr_scores(scores, fprs, epsilon, per_domain_tuning)
 
     return {"scores": scores, "thresholds": thresholds, "fpr": fprs}
