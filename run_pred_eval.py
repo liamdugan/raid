@@ -36,13 +36,13 @@ if __name__ == "__main__":
     print(f"Running detection...")
     results = run_detection(detector.inference, df)
 
-    print(f"Done! Writing predictions to output path: {args.output_path}")
+    print(f"Done! Writing predictions to output path: {args.output_preds_path}")
     with open(args.output_preds_path, "w") as f:
         json.dump(results, f)
 
-    if "label" not in df.columns:
-        print("No labels found in dataframe; evaluation will not be run.")
-        exit(0)
+    # if "label" not in df.columns:
+    #     print("No labels found in dataframe; evaluation will not be run.")
+    #     exit(0)
 
     print("Running evaluation on the predictions...")
     evaluation_result = run_evaluation(results, df)

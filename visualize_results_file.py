@@ -23,6 +23,13 @@ for d in df.domain.unique():
         print(f"{d} -- {accuracy.item()}")
     except Exception:
         pass
+
+# for m in df.model.unique():
+#     accuracy = df[(df['model'] == m) & (df['domain'] == 'all') & (df['attack'] == 'none') & (df['decoding'] == 'all') & (df['repetition_penalty'] == 'all')]['auroc']
+#     try:
+#         print(f"{m} -- {accuracy.item()}")
+#     except Exception:
+#         pass
 #print(df)
 
 # # Conditions

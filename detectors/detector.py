@@ -51,7 +51,7 @@ def get_detector(detector_name: str) -> Detector:
         return OriginalityAI()
     elif detector_name == "binoculars":
         return Binoculars()
-    if detector_name == "conda":
+    elif detector_name == "conda":
         return Conda()
     else:
         raise ValueError("Invalid detector name")
