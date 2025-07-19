@@ -81,18 +81,20 @@ def find_threshold(df, target_fpr, epsilon):
     return threshold, compute_fpr(y_scores, threshold)
 
 
-def compute_thresholds(df, fpr, epsilon=0.0005, per_domain_tuning=True):
+def compute_thresholds(df, fpr=[0.05], epsilon=0.0005, per_domain_tuning=True):
     thresholds = defaultdict(dict)
     true_fprs = defaultdict(dict)
 
     for fpr_value in fpr:
         if not per_domain_tuning:
-            thresholds[str(fpr_value)] = find_threshold(df, fpr_value, epsilon)
-
-        for d in df.domain.unique():
-            t, true_fpr = find_threshold(df[df["domain"] == d], fpr_value, epsilon)
-            thresholds[str(fpr_value)][d] = t
-            true_fprs[str(fpr_value)][d] = true_fpr
+            t, true_fpr = find_threshold(df, fpr_value, epsilon)
+            thresholds[str(fpr_value)] = t
+            true_fprs[str(fpr_value)] = true_fpr
+        else:
+            for d in df.domain.unique():
+                t, true_fpr = find_threshold(df[df["domain"] == d], fpr_value, epsilon)
+                thresholds[str(fpr_value)][d] = t
+                true_fprs[str(fpr_value)][d] = true_fpr
 
     return thresholds, true_fprs
 
@@ -198,6 +200,16 @@ def compute_scores(df, thresholds, require_complete=True, include_all=True):
     return scores
 
 
+def remove_failed_fpr_scores(scores, fprs, epsilon, per_domain_tuning):
+    """Removes all scores that do not meet the target FPR"""
+    for i, record in enumerate(scores):
+        for target_fpr in record["accuracy"].keys():
+            fpr = fprs[target_fpr][record["domain"]] if per_domain_tuning else fprs[target_fpr]
+            if abs(fpr - target_fpr) > epsilon:
+                scores[i]["accuracy"][target_fpr] = None
+    return scores
+
+
 def run_evaluation(
     results, df, target_fpr=0.05, epsilon=0.0005, per_domain_tuning=True, require_complete=True, include_all=True
 ):
@@ -213,5 +225,8 @@ def run_evaluation(
 
     # Compute accuracy scores for each split of the data
     scores = compute_scores(df, thresholds, require_complete)
+
+    # Remove all of the scores that do not meet the target FPR values
+    scores = remove_failed_fpr_scores(scores, thresholds, fprs, epsilon, per_domain_tuning)
 
     return {"scores": scores, "thresholds": thresholds, "fpr": fprs}
