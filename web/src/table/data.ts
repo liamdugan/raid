@@ -23,7 +23,7 @@ export interface SubmissionScore {
   decoding: string
   repetition_penalty: string
   attack: string
-  accuracy: { [fpr: number]: SubmissionMetric }
+  accuracy: { [fpr: string]: SubmissionMetric | null }
   auroc: number | null
 }
 
