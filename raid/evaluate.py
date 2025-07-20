@@ -211,14 +211,14 @@ def remove_failed_fpr_scores(scores, fprs, epsilon, per_domain_tuning):
                     scores[i]["accuracy"][target_fpr] = None
                     if target_fpr not in fprs_with_removed_scores:
                         fprs_with_removed_scores.append(target_fpr)
-    
+
     # If we've removed scores, remove the score for the 'all' domain as well
     if len(fprs_with_removed_scores) > 0:
         for i, record in enumerate(scores):
             if record["domain"] == "all":
                 for fpr in fprs_with_removed_scores:
                     scores[i]["accuracy"][fpr] = None
-    
+
     return scores
 
 

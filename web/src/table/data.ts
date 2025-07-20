@@ -55,8 +55,10 @@ export function getMetricValue(
     case 'AUROC':
       return score.auroc
     case 'TPR@FPR=5%':
+      if (score.accuracy['0.05'] === null) return null
       return score.accuracy['0.05'].accuracy
     case 'TPR@FPR=1%':
+      if (score.accuracy['0.01'] === null) return null
       return score.accuracy['0.01'].accuracy
   }
   return null

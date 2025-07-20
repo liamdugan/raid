@@ -21,20 +21,30 @@ for fp in sys.argv[1:]:
     score_agg = results["score_agg"]["all"]
     if "_note" in score_agg:
         print(f"\n> [!WARNING]\n> {score_agg['_note']}")
-    else:
+    elif len(null_fprs := [f"{float(fpr):.0%}" for fpr, acc in score_agg["accuracy"].items() if acc is None]) > 0:
+        print(
+            f"\n> [!WARNING]\n> Failed to find threshold values that achieve False Positive Rate(s): ({null_fprs}) on all domains."
+            " This submission will not appear in the main leaderboard for those FPR values; it will only be visible"
+            " within the splits in which the target FPR was achieved."
+        )
+
+    if "accuracy" in score_agg and any(list(score_agg["accuracy"].values())):
+        accuracies = [(fpr, acc) for fpr, acc in score_agg["accuracy"].items() if acc is not None]
+        accuracy_print = " and ".join([f"**{acc['accuracy']:.2%}** at FPR={float(fpr):.0%}" for fpr, acc in accuracies])
         print(
             "On the RAID dataset as a whole (aggregated across all generation models, domains, decoding strategies,"
-            " repetition penalties, and adversarial attacks), it achieved a TPR of "
-            f"**{score_agg['accuracy']['0.05']['accuracy']:.2%}** at FPR=5% and **{score_agg['accuracy']['0.01']['accuracy']:.2%}** at FPR=1%."
+            f" repetition penalties, and adversarial attacks), it achieved an AUROC of {score_agg['auroc'] * 100.0:.2f} and a TPR of {accuracy_print}."
         )
 
     score_agg_no_adversarial = results["score_agg"]["no_adversarial"]
     if "_note" in score_agg_no_adversarial:
         print(f"\n> [!WARNING]\n> {score_agg_no_adversarial['_note']}")
-    else:
+
+    if "accuracy" in score_agg_no_adversarial and any(list(score_agg_no_adversarial["accuracy"].values())):
+        accuracies = [(fpr, acc) for fpr, acc in score_agg_no_adversarial["accuracy"].items() if acc is not None]
+        accuracy_print = " and ".join([f"**{acc['accuracy']:.2%}** at FPR={float(fpr):.0%}" for fpr, acc in accuracies])
         print(
-            f"Without adversarial attacks, it achieved a TPR of **{score_agg_no_adversarial['accuracy']['0.05']['accuracy']:.2%}**"
-            f" at FPR=5% and **{score_agg_no_adversarial['accuracy']['0.01']['accuracy']:.2%}** at FPR=1%."
+            f"Without adversarial attacks, it achieved AUROC of {score_agg_no_adversarial['auroc'] * 100.0:.2f} and a TPR of {accuracy_print}."
         )
 
 print()
