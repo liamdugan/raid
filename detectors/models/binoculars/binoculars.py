@@ -90,8 +90,12 @@ class Binoculars(object):
         pred = np.where(binoculars_scores < GLOBAL_BINOCULARS_THRESHOLD, "AI-Generated", "Human-Generated").tolist()
         return pred
 
-    def inference(self, texts):
+    def inference(self, texts: list[str]):
+        """Note:
+            Returns `-score` for compatibility with greater-than-thresholding in downstream evaluation,
+            as the Binoculars score is *not* bound to the domain [0, 1].
+        """
         predictions = []
         for text in tqdm(texts):
-            predictions.append(1 - self.compute_score(text))
+            predictions.append(-self.compute_score(text))
         return predictions
