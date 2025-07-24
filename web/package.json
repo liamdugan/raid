@@ -17,6 +17,7 @@
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "axios": "^1.11.0",
     "bulma": "^1.0.1",
     "click-outside-vue3": "^4.0.1",
     "vue": "^3.4.15",

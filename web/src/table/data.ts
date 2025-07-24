@@ -1,4 +1,6 @@
 // raw data
+import axios from 'axios'
+
 export interface Submission {
   date_released: string
   detector_name: string
@@ -65,14 +67,19 @@ export function getMetricValue(
 }
 
 // data
+type ScoreIndexItem = string;
+
+async function readIndexedLeaderboardScores(indexPath: string): Promise<Submission[]> {
+  const index: ScoreIndexItem[] = await axios.get(indexPath).then(r => r.data)
+  return await Promise.all(index.map(item => axios.get(item).then(r => r.data)))
+}
+
 export async function getLeaderboardScores(): Promise<Submission[]> {
-  const mod = await import('@/data/all-scores.json')
-  return mod.default
+  return await readIndexedLeaderboardScores('/data/submissions/_index.json')
 }
 
 export async function getSharedTaskScores(): Promise<Submission[]> {
-  const mod = await import('@/data/shared-task-scores.json')
-  return mod.default
+  return await readIndexedLeaderboardScores('/data/shared-task/_index.json')
 }
 
 // we hardcode this to the set included in RAID for display ordering and speed
