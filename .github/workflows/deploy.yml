@@ -8,10 +8,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Format leaderboard results for web
-        run: |
-          jq -s . leaderboard/submissions/*/results.json > web/src/data/all-scores.json
-
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -23,11 +19,14 @@ jobs:
         working-directory: ./web
         run: npm install
 
-      - name: Build
+      - name: Build web
         working-directory: ./web
         run: |
           npm run build
           cp dist/index.html dist/404.html
+
+      - name: Copy leaderboard results to web dist
+        run: bash leaderboard/copy-results-to-web-dist.sh
 
       - uses: actions/upload-pages-artifact@v3
         with:
