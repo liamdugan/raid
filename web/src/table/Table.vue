@@ -36,7 +36,7 @@ const selectedDomain = ref('all')
 const selectedDecoding = ref('all')
 const selectedRepetition = ref('all')
 const selectedAttack = ref('none')
-const selectedMetric = ref<(typeof ALL_METRICS)[number]>('AUROC')
+const selectedMetric = ref<(typeof ALL_METRICS)[number]>('TPR@FPR=5%')
 
 // computed
 const filteredSortedData = computed(() => {
@@ -161,6 +161,7 @@ function updateQueryParams() {
   searchParams.set('decoding', selectedDecoding.value)
   searchParams.set('repetition', selectedRepetition.value)
   searchParams.set('attack', selectedAttack.value)
+  searchParams.set('metric', selectedMetric.value)
 
   // build sort query param
   searchParams.delete('sort')
@@ -223,6 +224,7 @@ function loadSelectorQueryParams() {
   selectedDecoding.value = searchParams.get('decoding') ?? 'all'
   selectedRepetition.value = searchParams.get('repetition') ?? 'all'
   selectedAttack.value = searchParams.get('attack') ?? 'none'
+  selectedMetric.value = (searchParams.get('metric') ?? 'TPR@FPR=5%') as any // ts hack
 }
 
 // other
@@ -232,7 +234,7 @@ function clearFilters() {
   selectedDecoding.value = 'all'
   selectedRepetition.value = 'all'
   selectedAttack.value = 'none'
-  selectedMetric.value = 'AUROC'
+  selectedMetric.value = 'TPR@FPR=5%'
   filterSelections.clear()
   sortOrders.clear()
   updateQueryParams()
