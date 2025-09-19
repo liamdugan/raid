@@ -1,9 +1,9 @@
 {
     "date_released": "2025-09-05",
     "detector_name": "AnonDet",
-    "website": "Link to Homepage (Optional) e.g. https://example.com/",
-    "paper_link": "Link to Paper (Optional) e.g. https://arxiv.org/abs/1706.03762",
-    "huggingface_link": "Link to HF model (Optional) e.g. https://huggingface.co/google-bert/bert-base-uncased",
-    "github_link": "Link to Github (Optional) e.g. https://github.com/google-research/bert",
+    "website": "",
+    "paper_link": "",
+    "huggingface_link": "",
+    "github_link": "",
     "contact_info": "dvorakiskey@gmail.com"
   }
