@@ -1,0 +1,15 @@
+{
+  "name": "BERT_IdentifyIA_HF",
+  "detector_type": "classifier",
+  "framework": "transformers",
+  "paper_title": "Custom fine-tuned detector on AH_AITD",
+  "paper_url": "",
+  "authors": [
+    "K99G1"
+  ],
+  "organization": "",
+  "description": "Detector HF reentrenado sobre AH_AITD evaluado en RAID.",
+  "license": "MIT",
+  "contact": "",
+  "notes": ""
+}
