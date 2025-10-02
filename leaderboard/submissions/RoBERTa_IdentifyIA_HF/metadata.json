@@ -1,5 +1,4 @@
 {
-  "name": "RoBERTa_IdentifyIA_HF",
   "detector_type": "classifier",
   "framework": "transformers",
   "paper_title": "Custom fine-tuned detector on AH_AITD",
