@@ -1,14 +1,8 @@
 {
-  "detector_type": "classifier",
-  "framework": "transformers",
-  "paper_title": "Custom fine-tuned detector on AH_AITD",
-  "paper_url": "",
-  "authors": [
-    "K99G1"
-  ],
-  "organization": "",
-  "description": "Detector HF reentrenado sobre AH_AITD evaluado en RAID.",
-  "license": "MIT",
-  "contact": "",
-  "notes": ""
+  "date_released": "2025-02-01",
+  "detector_name": "RoBERTa_IdentifyIA_HF",
+  "website": "https://huggingface.co/KewynG/RoBerta_IdentifyIA",
+  "paper_link": "",
+  "github_link": "https://github.com/Gwyn9/raid",
+  "contact_info": "https://huggingface.co/KewynG"
 }
