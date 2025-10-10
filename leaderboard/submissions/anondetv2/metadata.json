@@ -1,9 +1,9 @@
 {
     "date_released": "2025-10-07",
-    "detector_name": "AnonDetV2",
-    "website": "",
+    "detector_name": "GPTZero",
+    "website": "https://gptzero.me/",
     "paper_link": "",
     "huggingface_link": "",
     "github_link": "",
-    "contact_info": "dvorakiskey@gmail.com"
+    "contact_info": "alex.adam@gptzero.me"
   }
