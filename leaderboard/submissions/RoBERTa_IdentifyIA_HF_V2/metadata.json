@@ -1,8 +1,9 @@
 {
   "date_released": "2025-02-01",
   "detector_name": "RoBERTa_IdentifyIA_HF_V2",
-  "website": "https://huggingface.co/KewynG/RoBert_IdentifyIA_V2",
+  "website": "https://huggingface.co/KewynG/RoBerta_IdentifyIA_V2",
   "paper_link": "",
   "github_link": "https://github.com/Gwyn9/raid",
   "contact_info": "https://huggingface.co/KewynG"
 }
+
