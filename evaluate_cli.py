@@ -5,6 +5,8 @@ import pandas as pd
 
 from raid.evaluate import run_evaluation
 
+DEFAULT_FPR_VALUES = [0.05, 0.01]
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -17,7 +19,12 @@ if __name__ == "__main__":
         "-o", "--output_path", type=str, default="results.json", help="Path to the output JSON to write scores"
     )
     parser.add_argument(
-        "-t", "--target_fpr", type=float, default=0.05, help="Target false positive rate to evaluate detectors at"
+        "-t",
+        "--target_fpr",
+        nargs="+",
+        type=float,
+        default=DEFAULT_FPR_VALUES,
+        help="Target false positive rate to evaluate detectors at",
     )
     args = parser.parse_args()
 

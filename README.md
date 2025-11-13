@@ -6,7 +6,7 @@
    <b>Open Leaderboards. Trustworthy Evaluation. Robust AI Detection.</b>
 </p>
 <p align="center">
-  <a href="https://github.com/liamdugan/raid/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/liamdugan/raid/lint.yml?logo=githubactions&logoColor=white&label=Code Style%20" alt="Code Style" style="max-width: 100%;"></a>
+  <a href="https://github.com/liamdugan/raid/actions/workflows/lint.yml"><img src="https://img.shields.io/github/actions/workflow/status/liamdugan/raid/lint.yml?logo=githubactions" alt="Code Style" style="max-width: 100%;"></a>
   <a href="https://pypi.org/project/raid-bench/"><img src="https://badge.fury.io/py/raid-bench.svg"/></a>
   <a href="https://raid-bench.xyz/leaderboard"><img src="https://img.shields.io/website.svg?down_color=red&down_message=offline&label=Leaderboard&up_message=online&url=https://raid-bench.xyz/"/></a>
   <a href="https://github.com/liamdugan/raid/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>

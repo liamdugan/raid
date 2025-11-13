@@ -1,19 +1,21 @@
 <script setup lang="ts">
-import { filters } from './filters'
-import { numeric, numericDesc, SortOrder } from './sorters'
-import SortIcon from './SortIcon.vue'
+import TableCell from '@/table/TableCell.vue'
 import { computed, onMounted, reactive, ref } from 'vue'
 import {
   ALL_ATTACKS,
   ALL_DECODINGS,
   ALL_DOMAINS,
   ALL_GENERATOR_MODELS,
+  ALL_METRICS,
   ALL_REPETITION_PENALTIES,
   type Datum,
   findSplit,
+  getMetricValue,
   type Submission
 } from './data'
-import TableCell from '@/table/TableCell.vue'
+import { filters } from './filters'
+import { numeric, numericDesc, SortOrder } from './sorters'
+import SortIcon from './SortIcon.vue'
 
 // setup
 const props = defineProps<{
@@ -34,6 +36,7 @@ const selectedDomain = ref('all')
 const selectedDecoding = ref('all')
 const selectedRepetition = ref('all')
 const selectedAttack = ref('none')
+const selectedMetric = ref<(typeof ALL_METRICS)[number]>('TPR@FPR=5%')
 
 // computed
 const filteredSortedData = computed(() => {
@@ -52,40 +55,49 @@ const filteredSortedData = computed(() => {
       if (direction === SortOrder.ASC) {
         val = numeric(
           (datum) =>
-            findSplit(
-              datum,
-              sorterKey,
-              selectedDomain.value,
-              selectedDecoding.value,
-              selectedRepetition.value,
-              selectedAttack.value
-            )?.accuracy ?? -999
+            getMetricValue(
+              findSplit(
+                datum,
+                sorterKey,
+                selectedDomain.value,
+                selectedDecoding.value,
+                selectedRepetition.value,
+                selectedAttack.value
+              ),
+              selectedMetric.value
+            ) ?? -999
         )(a, b)
       } else if (direction === SortOrder.DESC) {
         val = numericDesc(
           (datum) =>
-            findSplit(
-              datum,
-              sorterKey,
-              selectedDomain.value,
-              selectedDecoding.value,
-              selectedRepetition.value,
-              selectedAttack.value
-            )?.accuracy ?? -999
+            getMetricValue(
+              findSplit(
+                datum,
+                sorterKey,
+                selectedDomain.value,
+                selectedDecoding.value,
+                selectedRepetition.value,
+                selectedAttack.value
+              ),
+              selectedMetric.value
+            ) ?? -999
         )(a, b)
       }
       if (val) return val
     }
     return numericDesc(
       (datum) =>
-        findSplit(
-          datum,
-          'all',
-          selectedDomain.value,
-          selectedDecoding.value,
-          selectedRepetition.value,
-          selectedAttack.value
-        )?.accuracy ?? -999
+        getMetricValue(
+          findSplit(
+            datum,
+            'all',
+            selectedDomain.value,
+            selectedDecoding.value,
+            selectedRepetition.value,
+            selectedAttack.value
+          ),
+          selectedMetric.value
+        ) ?? -999
     )(a, b)
   })
 })
@@ -149,6 +161,7 @@ function updateQueryParams() {
   searchParams.set('decoding', selectedDecoding.value)
   searchParams.set('repetition', selectedRepetition.value)
   searchParams.set('attack', selectedAttack.value)
+  searchParams.set('metric', selectedMetric.value)
 
   // build sort query param
   searchParams.delete('sort')
@@ -211,6 +224,7 @@ function loadSelectorQueryParams() {
   selectedDecoding.value = searchParams.get('decoding') ?? 'all'
   selectedRepetition.value = searchParams.get('repetition') ?? 'all'
   selectedAttack.value = searchParams.get('attack') ?? 'none'
+  selectedMetric.value = (searchParams.get('metric') ?? 'TPR@FPR=5%') as any // ts hack
 }
 
 // other
@@ -220,6 +234,7 @@ function clearFilters() {
   selectedDecoding.value = 'all'
   selectedRepetition.value = 'all'
   selectedAttack.value = 'none'
+  selectedMetric.value = 'TPR@FPR=5%'
   filterSelections.clear()
   sortOrders.clear()
   updateQueryParams()
@@ -319,6 +334,18 @@ function isMaximum(
           </div>
         </div>
       </div>
+      <div class="level-item">
+        <div class="field filter-control">
+          <label class="label">Metric</label>
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedMetric" @change="updateQueryParams()">
+                <option v-for="metric in ALL_METRICS">{{ metric }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- count, reset -->
     <div class="level-right">
@@ -409,6 +436,7 @@ function isMaximum(
             :selected-decoding="selectedDecoding"
             :selected-repetition="selectedRepetition"
             :selected-attack="selectedAttack"
+            :selected-metric="selectedMetric"
             :is-maximum="isMaximum"
           />
           <TableCell
@@ -419,6 +447,7 @@ function isMaximum(
             :selected-decoding="selectedDecoding"
             :selected-repetition="selectedRepetition"
             :selected-attack="selectedAttack"
+            :selected-metric="selectedMetric"
             :is-maximum="isMaximum"
           />
         </tr>
@@ -457,7 +486,7 @@ function isMaximum(
 }
 
 .filter-control {
-  min-width: 12rem;
+  min-width: 9rem;
 }
 
 .w-100 {

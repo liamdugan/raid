@@ -154,7 +154,7 @@ def eval_submission(submission: LeaderboardSubmission):
         d = json.load(f)
 
     # evaluate
-    eval_results = run_evaluation(d, df)
+    eval_results = run_evaluation(d, df, target_fpr=(0.05, 0.01))
     scores = eval_results["scores"]
 
     # get the aggregates

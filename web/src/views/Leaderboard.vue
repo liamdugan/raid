@@ -13,7 +13,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <section class="section">
+  <section class="section lbtitle">
     <div class="container">
       <h1 class="title">RAID Benchmark Leaderboard</h1>
       <p>
@@ -34,4 +34,8 @@ onMounted(async () => {
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.lbtitle {
+  padding-bottom: 0px;
+}
+</style>

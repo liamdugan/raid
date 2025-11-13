@@ -1,4 +1,6 @@
 // raw data
+import axios from 'axios'
+
 export interface Submission {
   date_released: string
   detector_name: string
@@ -13,13 +15,18 @@ export interface Submission {
 export interface Datum extends Submission {
 }
 
+export interface SubmissionMetric {
+  accuracy: number | null
+}
+
 export interface SubmissionScore {
   model: string
   domain: string
   decoding: string
   repetition_penalty: string
   attack: string
-  accuracy: number | null
+  accuracy: { [fpr: string]: SubmissionMetric | null }
+  auroc: number | null
 }
 
 // utils
@@ -41,15 +48,38 @@ export function findSplit(
   )
 }
 
+export function getMetricValue(
+  score: SubmissionScore | undefined,
+  metric: typeof ALL_METRICS[number]
+): number | null {
+  if (score === undefined) return null
+  switch (metric) {
+    case 'AUROC':
+      return score.auroc
+    case 'TPR@FPR=5%':
+      if (score.accuracy['0.05'] === null) return null
+      return score.accuracy['0.05'].accuracy
+    case 'TPR@FPR=1%':
+      if (score.accuracy['0.01'] === null) return null
+      return score.accuracy['0.01'].accuracy
+  }
+  return null
+}
+
 // data
+type ScoreIndexItem = string;
+
+async function readIndexedLeaderboardScores(indexPath: string): Promise<Submission[]> {
+  const index: ScoreIndexItem[] = await axios.get(indexPath).then(r => r.data)
+  return await Promise.all(index.map(item => axios.get(item).then(r => r.data)))
+}
+
 export async function getLeaderboardScores(): Promise<Submission[]> {
-  const mod = await import('@/data/all-scores.json')
-  return mod.default
+  return await readIndexedLeaderboardScores('/data/submissions/_index.json')
 }
 
 export async function getSharedTaskScores(): Promise<Submission[]> {
-  const mod = await import('@/data/shared-task-scores.json')
-  return mod.default
+  return await readIndexedLeaderboardScores('/data/shared-task/_index.json')
 }
 
 // we hardcode this to the set included in RAID for display ordering and speed
@@ -65,7 +95,7 @@ export const ALL_GENERATOR_MODELS = [
   'llama-chat',
   'mpt',
   'mpt-chat'
-]
+] as const
 export const ALL_DOMAINS = [
   'abstracts',
   'books',
@@ -75,9 +105,9 @@ export const ALL_DOMAINS = [
   'reddit',
   'reviews',
   'wiki'
-]
-export const ALL_DECODINGS = ['greedy', 'sampling']
-export const ALL_REPETITION_PENALTIES = ['no', 'yes']
+] as const
+export const ALL_DECODINGS = ['greedy', 'sampling'] as const
+export const ALL_REPETITION_PENALTIES = ['no', 'yes'] as const
 export const ALL_ATTACKS = [
   'whitespace',
   'upper_lower',
@@ -90,7 +120,12 @@ export const ALL_ATTACKS = [
   'article_deletion',
   'alternative_spelling',
   'zero_width_space'
-]
+] as const
+export const ALL_METRICS = [
+  'AUROC',
+  'TPR@FPR=5%',
+  'TPR@FPR=1%'
+] as const
 
 // ===== old dynamic generation =====
 // // Array.filter(unique) -> unique elements of that arr, preserving order

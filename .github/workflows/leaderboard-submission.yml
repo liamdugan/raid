@@ -69,23 +69,15 @@ jobs:
           LEADERBOARD_SALT: ${{ secrets.LEADERBOARD_SALT }}
         run: python leaderboard/hydrate.py
 
-      # ensure the PR comment exists so we can edit it in future steps
-      - name: Ensure PR comment
-        if: steps.eval.outputs.changed > 0 || failure()
-        run: |
-          if [[ -z $(gh pr view ${{ github.event.number }} --json comments | jq '.comments[].author.login | select(. == "github-actions")') ]]; then
-            gh pr comment ${{ github.event.number }} -b "Results incoming...";
-          fi
-
       - name: Add PR comment (failure)
         if: failure()
-        run: gh pr comment ${{ github.event.number }} --edit-last -b "It looks like this eval run failed. Please check the [workflow logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) to see what went wrong, then push a new commit to your PR to rerun the eval."
+        run: gh pr comment ${{ github.event.number }} -b "It looks like this eval run failed. Please check the [workflow logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) to see what went wrong, then push a new commit to your PR to rerun the eval."
 
       - name: Add PR comment (success)
         if: steps.eval.outputs.changed > 0
         env:
           RUN_LINK: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: python leaderboard/gh-print-new-results.py ${{ steps.eval.outputs.written-results }} | gh pr comment ${{ github.event.number }} --edit-last -F -
+        run: python leaderboard/gh-print-new-results.py ${{ steps.eval.outputs.written-results }} | gh pr comment ${{ github.event.number }} -F -
 
       - name: Commit results files to PR
         if: steps.eval.outputs.changed > 0
