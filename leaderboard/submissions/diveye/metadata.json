@@ -1,0 +1,9 @@
+{
+  "date_released": "2025-11-20",
+  "detector_name": "DivEye",
+  "website": "https://diveye.vercel.app/",
+  "paper_link": "https://arxiv.org/abs/2509.18880",
+  "github_link": "https://github.com/IBM/diveye",
+  "huggingface_link": "https://huggingface.co/spaces/pinyuchen/Diveye_AI_text_detector",
+  "contact_info": "f20221155@goa.bits-pilani.ac.in"
+}
