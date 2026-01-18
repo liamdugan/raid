@@ -1,0 +1,9 @@
+{
+  "date_released": "2025-01-16",
+  "detector_name": "TMR (Target Mining RoBERTa) - AI Text Detector",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "https://huggingface.co/Oxidane/tmr-ai-text-detector",
+  "github_link": "https://github.com/Oxidane-bot",
+  "contact_info": "me@oxidane.net"
+}
