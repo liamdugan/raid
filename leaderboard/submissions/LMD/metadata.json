@@ -1,0 +1,9 @@
+{
+  "date_released": "2026-01-22",
+  "detector_name": "LMD",
+  "website": "None",
+  "paper_link": "https://arxiv.org/abs/1910.01108",
+  "huggingface_link": "https://huggingface.co/distilbert/distilbert-base-uncased",
+  "github_link": "None",
+  "contact_info": "242270074@hdu.edu.cn"
+}
