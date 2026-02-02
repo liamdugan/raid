@@ -1,6 +1,6 @@
 {
-  "date_released": "2026-01-23",
-  "detector_name": "DeBERTaV3-ChatGLM-Detector",
+  "date_released": "2026-02-02",
+  "detector_name": "DeBERTaV3-ChatGLM-Detectorv2",
   "website": "",
   "paper_link": "",
   "huggingface_link": "",
