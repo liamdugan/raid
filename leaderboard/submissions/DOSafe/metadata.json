@@ -3,8 +3,5 @@
   "detector_name": "DOSafe",
   "website": "https://dosafe.io",
   "github_link": "https://github.com/nicenathapong/DOSafe",
-  "contact_info": "Email Address: joy@dos.ai",
-  "additional_metadata": {
-    "method": "Binoculars (Qwen3.5-35B/Qwen3-8B) + PPL/Burstiness statistical features. Weights: Bino 40% + PPL/Burst 60%, optimized on RAID train set. Train AUROC: 0.852."
-  }
+  "contact_info": "Email Address: joy@dos.ai"
 }
