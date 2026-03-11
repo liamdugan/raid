@@ -1,0 +1,8 @@
+{
+    "name": "ModernBERT-base",
+    "detector_type": "trained",
+    "oss": true,
+    "site": "",
+    "supervised": true,
+    "training_data": "Custom sentences and paragraphs dataset. Two-stage curriculum training.",
+}
