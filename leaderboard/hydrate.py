@@ -2,6 +2,7 @@ import functools
 import hashlib
 import json
 import os
+import re
 import traceback
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -98,6 +99,11 @@ def check_submission(submission_dir: Path) -> LeaderboardSubmission:
     metadata_fp = submission_dir / "metadata.json"
     predictions_fp = submission_dir / "predictions.json"
     results_fp = submission_dir / "results.json"
+
+    if not re.fullmatch(r"[\w.\-]+", submission_name):
+        raise ValueError(
+            r"Submission names must consist of only alphanumeric characters, dots, dashes, and underscores"
+        )
 
     # hash the submission
     the_hash = hashlib.sha256()
