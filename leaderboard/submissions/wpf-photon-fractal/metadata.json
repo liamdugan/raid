@@ -1,8 +1,9 @@
 {
-  "name": "WPF V141 Photon Fractal",
-  "model_type": "XGBoost + 60-dim statistical features",
-  "description": "60-dim language-independent statistical features (compression, entropy, fractal dimension, etc.) trained on RAID-train with per-domain balanced sampling",
-  "source_code": "https://github.com/",
-  "organization": "Independent",
-  "date": "2025"
+  "date_released": "2025-04-05",
+  "detector_name": "WPF V141 Photon Fractal",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "contact_info": ""
 }
