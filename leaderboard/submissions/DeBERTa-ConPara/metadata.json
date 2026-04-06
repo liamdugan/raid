@@ -1,0 +1,12 @@
+{
+  "detector_name": "DeBERTa-ConPara",
+  "url": "",
+  "open_source": true,
+  "base_model": "microsoft/deberta-v3-base",
+  "description": "DeBERTa-v3-base (184M) with 30 MI-selected linguistic features via attention-based fusion. Trained on HC3Plus+M4+MAGE+RAID (553K samples) with supervised contrastive loss and paraphrase augmentation. V2 Unicode preprocessing.",
+  "authors": "Mohamed Mady (TUM / OTH Regensburg / Imperial College London)",
+  "date": "2026-04-06",
+  "category": "Trained",
+  "training_data": "HC3Plus, M4, MAGE, RAID (train split + paraphrase attack)",
+  "parameters": "184M"
+}
