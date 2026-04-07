@@ -78,7 +78,7 @@ jobs:
         env:
           RUN_LINK: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
           RESULT_FILES: ${{ steps.eval.outputs.written-results }}
-        run: python leaderboard/gh-print-new-results.py $RESULT_FILES | gh pr comment ${{ github.event.number }} -F -
+        run: python leaderboard/gh-print-new-results.py | gh pr comment ${{ github.event.number }} -F -
 
       - name: Commit results files to PR
         if: steps.eval.outputs.changed > 0

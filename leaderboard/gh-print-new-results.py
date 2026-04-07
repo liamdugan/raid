@@ -5,10 +5,11 @@ import os
 import sys
 
 RUN_LINK = os.getenv("RUN_LINK")
+RESULT_FILES = json.loads(os.getenv("RESULT_FILES"))
 
 print(f"Eval run succeeded! Link to run: [link]({RUN_LINK})\n\nHere are the results of the submission(s):\n")
 
-for fp in sys.argv[1:]:
+for fp in RESULT_FILES:
     with open(fp) as f:
         results = json.load(f)
 
