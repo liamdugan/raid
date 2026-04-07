@@ -83,7 +83,7 @@ def hydrate_all():
 
     # write the written results files to GH outputs
     if "GITHUB_OUTPUT" in os.environ:
-        written_files_list = json.dumps([fp.absolute() for fp in written_files])
+        written_files_list = json.dumps([str(fp.absolute()) for fp in written_files])
         with open(os.environ["GITHUB_OUTPUT"], "a") as f:
             f.write(f"changed={len(written_files)}\n")
             f.write(f"written-results={written_files_list}\n")
