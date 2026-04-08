@@ -1,9 +1,9 @@
 {
-  "date_released": "2026-03-27",
+  "date_released": "2026-04-08",
   "detector_name": "Tabularis AI Text Detector",
   "website": "https://www.tabularis.ai/",
   "paper_link": "",
-  "huggingface_link": "",
+  "huggingface_link": "https://huggingface.co/Onlyartist9/modernbert-raid-private-candidate-d-weakmodel-polish-20260408",
   "github_link": "",
   "contact_info": "https://www.tabularis.ai/"
 }
