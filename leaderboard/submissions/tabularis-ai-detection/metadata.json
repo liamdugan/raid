@@ -1,9 +1,9 @@
 {
-  "date_released": "2026-03-23",
-  "detector_name": "Tabularis ai detection",
-  "website": "",
+  "date_released": "2026-04-08",
+  "detector_name": "Tabularis AI Detector",
+  "website": "https://www.tabularis.ai/",
   "paper_link": "",
   "huggingface_link": "",
   "github_link": "",
-  "contact_info": "GitHub: https://github.com/Onlyartist9"
+  "contact_info": ""
 }
