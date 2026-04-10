@@ -1,0 +1,9 @@
+{
+  "date_released": "2026-03-25",
+  "detector_name": "Ramensoft mmBERT-Hard",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "https://huggingface.co/ramensoft/ai-classifier-mmbert-hard",
+  "github_link": "https://github.com/ramensoft/ai-classifier",
+  "contact_info": ""
+}
