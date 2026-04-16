@@ -1,12 +1,9 @@
 {
+  "date_released": "2026-04-15",
   "detector_name": "DeBERTa-ConPara-v2",
-  "url": "https://github.com/MohamedMady19",
-  "open_source": true,
-  "base_model": "microsoft/deberta-v3-base",
-  "description": "DeBERTa-v3-base (184M) + 30 MI-selected linguistic features via attention fusion. Trained on HC3Plus + M4 + MAGE + RAID-none + all 11 RAID attack types (~767K samples, 50/50 balanced). Unicode v2 preprocessing. ConPara training methodology.",
-  "authors": "Mohamed Mady (TUM / OTH Regensburg / Imperial College London)",
-  "date": "2026-04-15",
-  "category": "Trained",
-  "training_data": "HC3Plus+M4+MAGE+RAID_all_attacks (+11 attack types)",
-  "parameters": "184M"
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "contact_info": "Email Address: mohamed.mady@oth-regensburg.de"
 }
