@@ -5,6 +5,5 @@
   "paper_link": "",
   "huggingface_link": "",
   "github_link": "",
-  "contact_info": "kelsamadicy@gmail.com",
-  "description": "Hybrid ensemble: v11 forward-DNA HistGradientBoosting (weight 0.50, full 672K coverage) + 8 API instruction judges (deepseek, kimi, openai_mini, openai_4o, xai, cohere, haiku-v2, opus) on adversarial test-outlier subset (~1.5% of rows), weighted by cross-validated train AUC with floor=0.005 (no judge silenced). Global Platt scaling fit on 24K-row labeled impersonation_pool reduces log-loss 6\u00d7 vs raw v11. Internal labeled-holdout AUC=0.991, log-loss=0.111, top-quartile-confidence accuracy 99.92%."
+  "contact_info": "kelsamadicy@gmail.com"
 }
