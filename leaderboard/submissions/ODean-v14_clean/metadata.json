@@ -1,9 +1,9 @@
 {
   "date_released": "2026-04-29",
-  "detector_name": "ODean v14 (clean hybrid ensemble)",
+  "detector_name": "Kareem Elsamadicy (Independent Researcher)",
   "website": "",
   "paper_link": "",
   "huggingface_link": "",
-  "github_link": "",
+  "github_link": "https://github.com/KProfundis",
   "contact_info": "kelsamadicy@gmail.com"
 }
