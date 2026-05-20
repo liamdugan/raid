@@ -1,6 +1,6 @@
 {
-  "date_released": "2026-05-10",
-  "detector_name": "Tabularis ModernBERT R1",
+  "date_released": "2026-05-20",
+  "detector_name": "Tabularis ModernBERT R1.1 (NFKC)",
   "website": "https://www.tabularis.ai/",
   "paper_link": "",
   "huggingface_link": "",
