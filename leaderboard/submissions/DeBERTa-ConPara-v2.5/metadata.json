@@ -1,0 +1,11 @@
+{
+  "detector_name": "DeBERTa-ConPara-v2.5",
+  "detector_description": "DeBERTa-v3-base with attack-aware Unicode preprocessing, 62-feature linguistic fusion (top-30 via MI), and targeted cell boosting. Proportional validation set, GDWL \u03b1=0.3. Trained on HC3 Plus + M4 + MAGE + RAID (3k/cell + cell boost).",
+  "training_data": "HC3 Plus, M4, MAGE, RAID (v2.5 boosted)",
+  "submission_date": "2026-05-21",
+  "paper_link": "",
+  "github_link": "",
+  "huggingface_link": "",
+  "contact_info": "anonymous@review.emnlp2026",
+  "website": ""
+}
