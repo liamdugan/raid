@@ -1,9 +1,9 @@
 {
-  "date_released": "2026-08-23",
-  "detector_name": "DeBERTa-ConPara-v218b-nofeat-norminf",
+  "date_released": "2026-08-25",
+  "detector_name": "RawGuard",
   "website": "",
   "paper_link": "",
   "huggingface_link": "",
   "github_link": "",
-  "contact_info": "Email Address: mohamed.mady@oth-regensburg.de"
+  "contact_info": "Email Address: mohamed.mady@tum.de"
 }
