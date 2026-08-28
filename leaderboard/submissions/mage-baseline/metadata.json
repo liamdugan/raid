@@ -1,0 +1,8 @@
+{
+  "date_released": "2024-05-21",
+  "detector_name": "Mage-baseline",
+  "paper_link": "https://arxiv.org/abs/2305.13242",
+  "huggingface_link": "https://huggingface.co/yaful/MAGE",
+  "github_link": "https://github.com/yafuly/MAGE",
+  "contact_info": "Email Address: yafuly@gmail.com"
+}
