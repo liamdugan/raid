@@ -1,0 +1,10 @@
+{
+  "detector_name": "CNI v4 — Cognitive Negligence Index",
+  "contact_info": "Alan Crawley",
+  "date_released": "2025-05-21",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "additional_metadata": "Etiological detector based on Ginzburg's indicial paradigm. 18 cognitive process features. XGBoost classifier. No neural backbone. Zero-shot on RAID."
+}
