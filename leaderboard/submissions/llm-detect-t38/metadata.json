@@ -1,0 +1,52 @@
+{
+  "date_released": "2026-09-12",
+  "detector_name": "LLM Detect T38 (multilingual Desklib adaptation)",
+  "contact_info": "GitHub: @Zxilly (https://github.com/Zxilly)",
+  "github_link": "https://cnb.cool/hixcode/commonservice/llm-detect",
+  "additional_metadata": {
+    "checkpoint": "t38-korean-rows-v1",
+    "checkpoint_sha256": "4032646b08949ff1dfcbfccb2bc300b0e37d5f0e09817bbdb4171bc6051e6c02",
+    "test_sha256": "96867bb0cebf4c49f412f78c35bdeb638494547165ca397b056f2734bb702c90",
+    "predictions_sha256": "d251aaa7ed754d37ce43daf3fcb638453a324daa4293844d9840a822dbef2ea0",
+    "inference_hardware": "2 x NVIDIA GeForce RTX 4090",
+    "torch": "2.12.0+cu126",
+    "precision": "BF16 weights and autocast, FP32 token pooling; Python float aggregation and sigmoid",
+    "long_text_handling": "service paragraph/sentence chunks <=512; content-token weighted mean logit; sigmoid",
+    "training_disclosure": "Multilingual fine-tuning lineage through danibor/oculus-v2.0-multilingual and desklib/ai-text-detector-v1.01. RAID official train samples were used for English replay. No RAID hidden test labels were accessed or used for checkpoint selection. Upstream pretraining and fine-tuning overlap cannot be fully audited.",
+    "selection": "Checkpoint fixed before RAID scoring from existing multilingual development evidence; no RAID score-based selection.",
+    "coverage": "All 672000 official test rows, including adversarial variants; no truncation to first 512 tokens.",
+    "probability_note": "Scores are sigmoid of weighted mean model logits, not empirically calibrated posterior probabilities.",
+    "service_source_sha256": {
+      "model.py": "b2533fb5efd349aad5e275dbcec1a643ab0322a83e2d51d108505d4b0b0d30b9",
+      "__init__.py": "402595398d5e669503169937e6bf679548aa21ca956dc0de02db8b33895659e6",
+      "contracts.py": "5d63141e7cdbf204c558b9891f19138343007bf0efe0b314f4e4f02090e7a596",
+      "settings.py": "766dc58189e74c78a44d5233a33fb63c7f513237c7d9f443eff347460d0daa84",
+      "control.py": "191f05e14bba5eaec7c5bcc8a51d047ed0315144d59dad76f5ec5a369ceecee4",
+      "splitting.py": "4b657af7abdd775c7e12f48932a9b7a6c637aad62c21489ac9f533c99b4f8738"
+    },
+    "checkpoint_selection_sha256": "b3e200394fa8ecbdc4a446758f13a2bb06ce441993c21b02b00d600106738d76",
+    "sharding": "Two disjoint contiguous halves, separate SQLite stores, all IDs checked on merge",
+    "performance_revision": {
+      "previous_selection_sha256": "1ef8649616f941df28da29dea845d3dca7448fbae14d4b34a0979cd50a351d68",
+      "previous_scorer_sha256": "0f9964f83f53bb348d33c2da17882ff88c11dfb3242ae746e745faa3ab6449c0",
+      "acceleration_sha256": "b640a1e24b0dbc50f136ddf1efd1049fb3619893f1f40105803c64144e024a0e",
+      "bench_sha256": "a4952d18ae80a81a84c652e63ab1e08605cc7c73f4290eba010cfb65312ccdd8",
+      "preserved_predictions": [
+        250240,
+        246784
+      ],
+      "timestamp": 1789219554.8036811,
+      "changes": "Exact-shape CUDA graphs after8 occurrences, cache constant relative positions, NumPy padding. Same model, BF16, batch geometry, tokens, aggregation and DB resume signatures."
+    },
+    "graph_cache_revision": {
+      "time": 1789220543.5596275,
+      "preserved_predictions": [
+        303744,
+        327552
+      ],
+      "acceleration_sha256": "e70a4ef05a3f7c8907f158e04f44be62236f3a605ae9697ad89c3b59847ddd0f",
+      "policy": "At most four graph shapes, <=256 tokens; LFU replacement. Avoid low-benefit large graph private pools."
+    },
+    "bf16_fp32_probe_max_logit_error": 0.0674295425415039
+  }
+}
