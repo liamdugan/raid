@@ -1,9 +1,9 @@
 {
-  "date_released": "2026-04-06",
+  "date_released": "2026-08-25",
   "detector_name": "DeBERTa-ConPara",
-  "website": "",
+  "website": "https://huggingface.co/mohamedmady/deberta-conpara",
   "paper_link": "",
-  "huggingface_link": "",
-  "github_link": "",
-  "contact_info": "Email Address: mohamed.mady@oth-regensburg.de"
+  "huggingface_link": "https://huggingface.co/mohamedmady/deberta-conpara",
+  "github_link": "https://github.com/MohamedMady19/deberta-conpara",
+  "contact_info": "Email Address: mohamed.mady@tum.de"
 }
