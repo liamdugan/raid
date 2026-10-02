@@ -1,0 +1,15 @@
+{
+  "date_released": "2026-10-02",
+  "detector_name": "decting-v0.10",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "contact_info": "king@woldy.net",
+  "additional_metadata": {
+    "uses_training": true,
+    "trained_on": "RAID train split (90k rows sampled, attack=none, title-grouped no-leakage)",
+    "method": "char TF-IDF (2-5gram) + LogisticRegression, CPU-only, no LLM inference at detection time",
+    "languages": "en"
+  }
+}
