@@ -36,6 +36,7 @@ jobs:
           repository: ${{ github.event.pull_request.head.repo.full_name }}
           ref: ${{ github.head_ref }}
           allow-unsafe-pr-checkout: true
+          token: ${{ secrets.BOT_PUSH_TOKEN }}
 
       # copy submission files over to main repo
       - name: Copy submission files to eval workspace
