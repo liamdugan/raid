@@ -1,0 +1,64 @@
+{
+  "date_released": "2026-09-15",
+  "detector_name": "GigaCheck-Detector-Multi (span coverage aggregation)",
+  "contact_info": "https://github.com/Chandrakanth10",
+  "huggingface_link": "https://huggingface.co/iitolstykh/GigaCheck-Detector-Multi",
+  "github_link": "https://github.com/ai-forever/gigacheck",
+  "additional_metadata": {
+    "evaluation_type": "Independent evaluation of an existing public checkpoint with document scores aggregated from its predicted spans; not submitted on behalf of the model authors.",
+    "date_released_scope": "Public release date of this span coverage aggregation submission, not the original upstream checkpoint release date.",
+    "model_id": "iitolstykh/GigaCheck-Detector-Multi",
+    "model_revision": "9fabe1503f99cc8a6f639996f9475c3ec19bc067",
+    "upstream_implementation_revision": "8cdbe6a1ce628b49b4aa0794edf7a425a47a774c",
+    "raid_revision": "ebd2cd8583d5bafdc988a716246faf6f45b8fabd",
+    "documents": 672000,
+    "clean_documents_included": 56000,
+    "input_handling": "Original Unicode text and whitespace preserved; the complete document is covered by tokenizer windows, with no document truncation or text normalization.",
+    "windowing": {
+      "content_tokens": 900,
+      "overlap_tokens": 120
+    },
+    "document_score": "For each raw span, floor its start and ceil its end, clip both bounds to its window, then offset to original-document character positions. Set each character to the maximum confidence of any covering span across all windows, or zero if uncovered. Return the float64 mean over every original character. No confidence cutoff is applied; empty or reversed clipped intervals are ignored. Higher scores indicate more AI evidence.",
+    "score_interpretation": "Ranking score, not a calibrated probability of AI authorship or a percentage of AI-written words.",
+    "inference_parameters": {
+      "attention": "eager",
+      "backbone_dtype": "bfloat16",
+      "batch_size": 1,
+      "confidence_cutoff": 0.0,
+      "content_tokens": 900,
+      "cpu_threads": 6,
+      "overlap_tokens": 120,
+      "repeats": 1,
+      "scoring": "frozen raid/run.py coverage_score",
+      "seed": 0,
+      "span_detector_dtype": "float32",
+      "tf32": false
+    },
+    "runtime_versions": {
+      "torch": "2.8.0+cu128",
+      "transformers": "4.55.0",
+      "tokenizers": "0.21.4",
+      "numpy": "2.2.6",
+      "accelerate": "1.2.1"
+    },
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "training_and_tuning": "No training, fine-tuning, ensembling, or threshold fitting was performed for this submission. The checkpoint training provenance remains that documented by its authors.",
+    "protocol_sha256": "866238871b1734d98f86ce4cd357a877f965f6bc5d08fe971108349302eb03da",
+    "predictions_sha256": "203c3aebddff247fbc8bdddc1bf056b73517a1f5b523bece7ce9f038683089a6",
+    "input_dataset_sha256": {
+      "test.csv": "96867bb0cebf4c49f412f78c35bdeb638494547165ca397b056f2734bb702c90",
+      "test_none.csv": "90f135c593158d3eb33ee7b5ba7867209ef29a5d9fc9646856aea069aa486b04"
+    },
+    "validation": {
+      "expected_ids": 672000,
+      "missing_ids": 0,
+      "duplicate_ids": 0,
+      "all_input_hashes_verified": true,
+      "all_tokenizer_windows_verified": true,
+      "all_scores_recomputed_from_raw_spans": true,
+      "maximum_recomputed_score_difference": 0.0,
+      "export_matches_raw_scores_exactly": true,
+      "exact_pilot_anchor_matches": 61
+    }
+  }
+}
