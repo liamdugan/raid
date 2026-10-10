@@ -1,0 +1,7 @@
+{
+  "date_released": "2026-10-10",
+  "detector_name": "GPTTrace (Ettin-150M)",
+  "website": "https://gpttrace.com",
+  "huggingface_link": "https://huggingface.co/jhu-clsp/ettin-encoder-150m",
+  "contact_info": "https://gpttrace.com"
+}
