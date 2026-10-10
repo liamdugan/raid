@@ -1,0 +1,15 @@
+{
+  "date_released": "2026-10-08",
+  "detector_name": "decting-v0.13",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "contact_info": "king@woldy.net",
+  "additional_metadata": {
+    "uses_training": true,
+    "trained_on": "RAID train split targeted sampling 25,968 rows (v0.12 recipe) + frontier2026 English AI-only augmentation 2,945 rows (n_train 28,913); title-grouped held-out, no test leakage",
+    "method": "Qwen3-0.6B + LoRA (r16) sequence classification, bf16, 2 epochs; fixes v0.12 gpt-6-sol/codeflame blind spots (post-train: blind2026-en AUROC 0.9999, heldout_v12 0.9989)",
+    "languages": "en"
+  }
+}
