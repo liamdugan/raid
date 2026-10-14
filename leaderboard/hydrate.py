@@ -20,6 +20,9 @@ SUBMISSIONS_ROOT = Path(__file__).parent / "submissions"
 # hydrate.py changelog
 HYDRATE_SCRIPT_SALT = b"1"
 
+# allowed values of the optional `raid_train_usage` metadata field (see README: Training-data disclosure)
+RAID_TRAIN_USAGE_VALUES = ("none", "calibration", "training")
+
 
 # ==== types ====
 @dataclass
@@ -32,6 +35,7 @@ class SubmissionMetadata:
     huggingface_link: str | None = None
     github_link: str | None = None
     additional_metadata: dict | None = None
+    raid_train_usage: str | None = None
 
 
 @dataclass
@@ -114,6 +118,11 @@ def check_submission(submission_dir: Path) -> LeaderboardSubmission:
     with open(metadata_fp) as f:
         metadata_data = json.load(f)
         metadata_data = SubmissionMetadata(**metadata_data)
+    if metadata_data.raid_train_usage not in (None, *RAID_TRAIN_USAGE_VALUES):
+        raise ValueError(
+            f"raid_train_usage must be one of {', '.join(RAID_TRAIN_USAGE_VALUES)} (got"
+            f" {metadata_data.raid_train_usage!r}); see README: Training-data disclosure"
+        )
 
     # hash the prediction file
     the_hash.update(predictions_fp.read_bytes())
