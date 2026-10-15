@@ -2,6 +2,7 @@
   "date_released": "2026-10-15",
   "detector_name": "GPTTrace (Ettin-1B)",
   "website": "https://gpttrace.com",
-  "huggingface_link": "https://huggingface.co/jhu-clsp/ettin-encoder-1b",
-  "contact_info": "https://gpttrace.com"
+  "huggingface_link": "https://huggingface.co/nakas/gpttrace-v5-1b",
+  "contact_info": "https://gpttrace.com",
+  "github_link": "https://github.com/andrewnakas/gpttrace"
 }
