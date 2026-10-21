@@ -17,4 +17,6 @@ copy_split() {
 }
 
 copy_split "submissions"
+echo "copying leaderboard/raid-train-usage.json to web/dist/data/raid-train-usage.json"
+jq -c . leaderboard/raid-train-usage.json > web/dist/data/raid-train-usage.json
 # copy_split "shared-task"  # this is static in the web/public/data/shared-task dir

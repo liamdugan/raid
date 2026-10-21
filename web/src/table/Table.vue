@@ -7,10 +7,14 @@ import {
   ALL_DOMAINS,
   ALL_GENERATOR_MODELS,
   ALL_METRICS,
+  ALL_RAID_TRAIN_FILTERS,
   ALL_REPETITION_PENALTIES,
   type Datum,
   findSplit,
   getMetricValue,
+  matchesRaidTrainFilter,
+  RAID_TRAIN_USAGE_DESCRIPTIONS,
+  RAID_TRAIN_USAGE_LABELS,
   type Submission
 } from './data'
 import { filters } from './filters'
@@ -37,12 +41,14 @@ const selectedDecoding = ref('all')
 const selectedRepetition = ref('all')
 const selectedAttack = ref('none')
 const selectedMetric = ref<(typeof ALL_METRICS)[number]>('TPR@FPR=5%')
+const selectedTraining = ref<(typeof ALL_RAID_TRAIN_FILTERS)[number]>('all')
 
 // computed
 const filteredSortedData = computed(() => {
   // RAID specific: select the right score from the settings
   let tempData: Datum[] = [...props.data]
   // filter
+  tempData = tempData.filter((datum) => matchesRaidTrainFilter(datum, selectedTraining.value))
   for (const [filterKey, selected] of filterSelections) {
     const filterImpl = filters[filterKey]
     if (!filterImpl) continue
@@ -162,6 +168,7 @@ function updateQueryParams() {
   searchParams.set('repetition', selectedRepetition.value)
   searchParams.set('attack', selectedAttack.value)
   searchParams.set('metric', selectedMetric.value)
+  searchParams.set('training', selectedTraining.value)
 
   // build sort query param
   searchParams.delete('sort')
@@ -225,6 +232,10 @@ function loadSelectorQueryParams() {
   selectedRepetition.value = searchParams.get('repetition') ?? 'all'
   selectedAttack.value = searchParams.get('attack') ?? 'none'
   selectedMetric.value = (searchParams.get('metric') ?? 'TPR@FPR=5%') as any // ts hack
+  const training = searchParams.get('training') ?? 'all'
+  selectedTraining.value = (ALL_RAID_TRAIN_FILTERS as readonly string[]).includes(training)
+    ? (training as (typeof ALL_RAID_TRAIN_FILTERS)[number])
+    : 'all'
 }
 
 // other
@@ -235,6 +246,7 @@ function clearFilters() {
   selectedRepetition.value = 'all'
   selectedAttack.value = 'none'
   selectedMetric.value = 'TPR@FPR=5%'
+  selectedTraining.value = 'all'
   filterSelections.clear()
   sortOrders.clear()
   updateQueryParams()
@@ -346,6 +358,18 @@ function isMaximum(
           </div>
         </div>
       </div>
+      <div class="level-item">
+        <div class="field filter-control">
+          <label class="label">RAID Training Data</label>
+          <div class="control w-100">
+            <div class="select w-100">
+              <select class="w-100" v-model="selectedTraining" @change="updateQueryParams()">
+                <option v-for="training in ALL_RAID_TRAIN_FILTERS">{{ training }}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- count, reset -->
     <div class="level-right">
@@ -428,6 +452,14 @@ function isMaximum(
                 </span>
               </a>
             </div>
+            <span
+              v-if="datum.raid_train_usage"
+              class="tag is-light"
+              :class="datum.raid_train_usage === 'training' ? 'is-warning' : 'is-success'"
+              :title="RAID_TRAIN_USAGE_DESCRIPTIONS[datum.raid_train_usage]"
+            >
+              {{ RAID_TRAIN_USAGE_LABELS[datum.raid_train_usage] }}
+            </span>
           </td>
           <TableCell
             :datum="datum"
