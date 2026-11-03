@@ -1,0 +1,17 @@
+{
+  "date_released": "2026-11-03",
+  "detector_name": "Fileverity V4 (step 4000)",
+  "website": "https://fileverity.com",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "contact_info": "Email Address: hello@fileverity.com",
+  "additional_metadata": {
+    "trained_on_raid": true,
+    "raid_training_records": 39582,
+    "checkpoint_step": 4000,
+    "hidden_test_records": 672000,
+    "hidden_test_labels_used": false,
+    "prediction_sha256": "2c115fec47fc65ae24ed3b34e91efaa1322cf43b5fca78c2cb9f13953cfff4b0"
+  }
+}
