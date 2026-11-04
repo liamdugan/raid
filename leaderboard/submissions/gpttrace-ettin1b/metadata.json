@@ -1,8 +1,8 @@
 {
-  "date_released": "2026-10-15",
-  "detector_name": "GPTTrace (Ettin-1B)",
+  "date_released": "2026-11-01",
+  "detector_name": "GPTTrace (Ettin-1B v8s)",
   "website": "https://gpttrace.com",
-  "huggingface_link": "https://huggingface.co/nakas/gpttrace-v5-1b",
+  "huggingface_link": "https://huggingface.co/nakas/gpttrace-v8s-1b",
   "contact_info": "https://gpttrace.com",
   "github_link": "https://github.com/andrewnakas/gpttrace"
 }
