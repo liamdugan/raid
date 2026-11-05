@@ -1,0 +1,4 @@
+{
+  "_note": "Training-data disclosure for submissions whose metadata.json does not carry raid_train_usage (see README: Training-data disclosure). Keys are submission directory names; values are none, calibration or training. Editing this file does not re-run evaluation.",
+  "the-detect-law-v7": "calibration"
+}
