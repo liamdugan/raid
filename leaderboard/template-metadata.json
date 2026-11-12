@@ -5,5 +5,6 @@
   "paper_link": "Link to Paper (Optional) e.g. https://arxiv.org/abs/1706.03762",
   "huggingface_link": "Link to HF model (Optional) e.g. https://huggingface.co/google-bert/bert-base-uncased",
   "github_link": "Link to Github (Optional) e.g. https://github.com/google-research/bert",
-  "contact_info": "Email Address: example@me.com"
+  "contact_info": "Email Address: example@me.com",
+  "raid_train_usage": "One of none, calibration, training (Optional, see README: Training-data disclosure)"
 }

@@ -9,6 +9,8 @@ export interface Submission {
   paper_link?: string | null
   huggingface_link?: string | null
   github_link?: string | null
+  raid_train_usage?: RaidTrainUsage | null
+  submission_id?: string
   scores: SubmissionScore[]
 }
 
@@ -71,11 +73,39 @@ type ScoreIndexItem = string;
 
 async function readIndexedLeaderboardScores(indexPath: string): Promise<Submission[]> {
   const index: ScoreIndexItem[] = await axios.get(indexPath).then(r => r.data)
-  return await Promise.all(index.map(item => axios.get(item).then(r => r.data)))
+  return await Promise.all(
+    index.map((item) =>
+      axios.get(item).then((r) => ({
+        ...r.data,
+        submission_id: item.replace(/^.*\//, '').replace(/\.json$/, '')
+      }))
+    )
+  )
+}
+
+// maintainer-recorded training-data disclosures for submissions whose metadata predates the field
+async function readRaidTrainUsageRecord(): Promise<{ [submissionId: string]: string }> {
+  try {
+    return await axios.get('/data/raid-train-usage.json').then((r) => r.data)
+  } catch {
+    return {}
+  }
 }
 
 export async function getLeaderboardScores(): Promise<Submission[]> {
-  return await readIndexedLeaderboardScores('/data/submissions/_index.json')
+  const [scores, record] = await Promise.all([
+    readIndexedLeaderboardScores('/data/submissions/_index.json'),
+    readRaidTrainUsageRecord()
+  ])
+  return scores.map((sub) => {
+    const usage = (sub.submission_id && record[sub.submission_id]) || sub.raid_train_usage
+    return {
+      ...sub,
+      raid_train_usage: ALL_RAID_TRAIN_USAGES.includes(usage as RaidTrainUsage)
+        ? (usage as RaidTrainUsage)
+        : null
+    }
+  })
 }
 
 export async function getSharedTaskScores(): Promise<Submission[]> {
@@ -126,6 +156,42 @@ export const ALL_METRICS = [
   'TPR@FPR=5%',
   'TPR@FPR=1%'
 ] as const
+
+// training-data disclosure (README: Training-data disclosure)
+export const ALL_RAID_TRAIN_USAGES = ['none', 'calibration', 'training'] as const
+export type RaidTrainUsage = (typeof ALL_RAID_TRAIN_USAGES)[number]
+export const RAID_TRAIN_USAGE_LABELS: { [usage in RaidTrainUsage]: string } = {
+  none: 'no RAID data',
+  calibration: 'calibrated on RAID',
+  training: 'trained on RAID'
+}
+export const RAID_TRAIN_USAGE_DESCRIPTIONS: { [usage in RaidTrainUsage]: string } = {
+  none: 'RAID training data was not used at all.',
+  calibration:
+    'No parameters were learned from RAID training data; it only set a few scalar values (thresholds, constants).',
+  training: 'Detector parameters were learned from RAID training data.'
+}
+export const ALL_RAID_TRAIN_FILTERS = [
+  'all',
+  'not trained on RAID',
+  'trained on RAID',
+  'not reported'
+] as const
+
+export function matchesRaidTrainFilter(
+  datum: Datum,
+  filter: (typeof ALL_RAID_TRAIN_FILTERS)[number]
+): boolean {
+  switch (filter) {
+    case 'not trained on RAID':
+      return datum.raid_train_usage === 'none' || datum.raid_train_usage === 'calibration'
+    case 'trained on RAID':
+      return datum.raid_train_usage === 'training'
+    case 'not reported':
+      return !datum.raid_train_usage
+  }
+  return true
+}
 
 // ===== old dynamic generation =====
 // // Array.filter(unique) -> unique elements of that arr, preserving order
