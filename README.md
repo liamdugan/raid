@@ -180,6 +180,21 @@ model will appear on the leaderboards!
 > [!NOTE]
 > You may submit multiple detectors in a single PR - each detector should have its own directory.
 
+### Training-data disclosure
+
+Each submission can declare how it used the RAID training split with the optional `raid_train_usage` field in
+`metadata.json`. The leaderboard shows it as a tag next to the detector and lets readers filter by it.
+
+| Value | Meaning |
+| --- | --- |
+| `training` | Any detector parameters were learned from RAID training data: fine-tuning, training a classifier or head, distillation, or training on transformed RAID texts (cleaned, de-attacked or augmented). Any amount counts. |
+| `calibration` | No parameters were learned from RAID training data. It was only used to set a few scalar values (decision thresholds, normalisation constants) or to choose among a small number of fixed configurations. |
+| `none` | RAID training data was not used at all. |
+
+Submissions without the field appear as "not reported". For submissions that predate the field, maintainers record
+the value in `leaderboard/raid-train-usage.json`, keyed by submission directory name; editing that file does not
+re-run evaluation.
+
 <!-- ### Pypi package (recommended)
 
 If you want to run RAID on a new detector, we recommend using our pypi package. To install first run `pip install raid-bench` and then use the `run_detection` and `run_evaluation` functions as follows: 
