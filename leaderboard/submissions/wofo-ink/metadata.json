@@ -1,0 +1,13 @@
+{
+  "date_released": "2026-11-11",
+  "detector_name": "Wofo Ink",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "contact_info": "paultangcn@gmail.com",
+  "additional_metadata": {
+    "uses_training": true,
+    "trained_on": "Built on our general-purpose AI-text detector, trained on ~435M words of mostly non-RAID data, with an additional fine-tuning pass on the RAID train split. No RAID test-set text was used."
+  }
+}
