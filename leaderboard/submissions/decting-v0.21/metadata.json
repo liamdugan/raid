@@ -1,0 +1,15 @@
+{
+  "detector_name": "decting-v0.21",
+  "date_released": "2026-11-19",
+  "contact_info": "king@woldy.net",
+  "team_name": "decting",
+  "num_parameters": "600M base + LoRA r16 (0.38% trainable)",
+  "base_model": "Qwen/Qwen3-0.6B",
+  "training_details": "Single Qwen3-0.6B + LoRA on RAID train (1.15M rows, 11 attacks x official variants + none, weak-family weighting, title-grouped split) + layout-decoupled augmentation (50% random paragraph-reformat), length-decoupled augmentation (40% mid-truncation variants on long AI samples, breaking the length-as-AI prior), shred-fragment defense (3% label-balanced), 32k fresh pre-LLM Wikipedia human corpus with original formatting (train-side only).",
+  "github_link": "https://github.com/woldy",
+  "huggingface_link": "",
+  "additional_metadata": {
+    "ensemble": false,
+    "notes": "Fixed version promised in #234. Root cause of the earlier v0.16 FP tail was a formatting/length asymmetry between RAID train and test human texts; v0.21 decouples layout and length from labels. Local eval: heldout AUROC 0.9984, shred-layout human FPR 7.8%, layout effects on fresh-human scores neutralized (raw-with-newlines == flattened)."
+  }
+}
