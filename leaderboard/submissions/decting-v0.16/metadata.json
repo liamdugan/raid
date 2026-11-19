@@ -1,0 +1,15 @@
+{
+  "date_released": "2026-10-31",
+  "detector_name": "decting-v0.16",
+  "website": "",
+  "paper_link": "",
+  "huggingface_link": "",
+  "github_link": "",
+  "contact_info": "king@woldy.net",
+  "additional_metadata": {
+    "uses_training": true,
+    "trained_on": "RAID train 1.15M rows (11 attacks x 53k + none 407k weak-family weighted) + 8-source external human corpus 148.6k (Wikipedia/arXiv-2021/pushshift-2012/aclImdb/RecipeNLG/booksummaries/PoetryFoundation/BBC-2006, all pre-LLM) + RAID human x4; title-grouped split, external humans train-side only",
+    "method": "Ensemble mean of 3 detectors: Qwen3-0.6B+LoRA x2 (v0.16 ext-human-pool variant + v0.15 full-attack variant) + ModernBERT-base+LoRA; per-domain TPR calibration; local official-distribution sim: single v0.16 0.9962, ensemble 0.9985",
+    "languages": "en"
+  }
+}
